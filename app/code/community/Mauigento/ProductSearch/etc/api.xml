@@ -1,0 +1,27 @@
+<config>
+    <api>
+        <resources>
+            <productSearch translate="title" module="productSearch">
+                <title>Mauigento Product Search</title>
+                <model>productSearch/api</model>
+                <acl>mauigento/productSearch</acl>
+                <methods>
+                    <results translate="title" module="productSearch">
+                        <title>Perform a search and return resulting product Ids</title>
+                        <acl>mauigento/productSearch/allaccess</acl>
+                    </results>
+                </methods>
+            </productSearch>
+        </resources>
+        <acl><!-- Access Control Results  to our resources, this tree structure is displayed in "Resource Roles" panel when you open role to edit -->
+            <resources>
+                <mauigento translate="title" module="productSearch">
+                    <title>Mauigento</title>
+                    <productSearch translate="title" module="productSearch">
+                        <title>Product Search</title>
+                    </productSearch>
+                </mauigento>
+            </resources>
+        </acl>
+    </api>
+</config>

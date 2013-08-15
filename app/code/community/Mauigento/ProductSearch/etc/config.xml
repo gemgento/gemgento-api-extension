@@ -1,0 +1,19 @@
+<config>
+    <modules>
+        <Mauigento_ProductSearch>
+            <version>0.0.0.1</version>
+        </Mauigento_ProductSearch>
+    </modules>
+    <global>
+        <models>
+            <productSearch>
+                <class>Mauigento_ProductSearch_Model</class>
+            </productSearch>
+        </models>
+        <helpers>
+            <productSearch>
+                <class>Mauigento_ProductSearch_Helper</class>
+            </productSearch>
+        </helpers>
+    </global>
+</config>
