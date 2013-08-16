@@ -1,6 +1,6 @@
 <?php
 
-class Mauigento_ProductSearch_Model_Api extends Mage_Catalog_Model_Api_Resource {
+class Gemgento_ProductSearch_Model_Api extends Mage_Catalog_Model_Api_Resource {
 
     public function results($query, $limit = null, $page = 0) {
         $result = array();
@@ -38,7 +38,7 @@ class Mauigento_ProductSearch_Model_Api extends Mage_Catalog_Model_Api_Resource 
         Mage::helper('productSearch')->getRequest()->setParam('q', $query);
 
         //Save or get the query data from the database
-        Mage::helper('productSearch')->mauigentoCustomSearchInit();
+        Mage::helper('productSearch')->gemgentoCustomSearchInit();
 
         // Preform the search
         $productList = Mage::getModel('catalogsearch/fulltext')->getCollection()

@@ -1,18 +1,18 @@
 <config>
     <modules>
-        <Mauigento_ProductSearch>
+        <Gemgento_ProductSearch>
             <version>0.0.1</version>
-        </Mauigento_ProductSearch>
+        </Gemgento_ProductSearch>
     </modules>
     <global>
         <models>
             <productSearch>
-                <class>Mauigento_ProductSearch_Model</class>
+                <class>Gemgento_ProductSearch_Model</class>
             </productSearch>
         </models>
         <helpers>
             <productSearch>
-                <class>Mauigento_ProductSearch_Helper</class>
+                <class>Gemgento_ProductSearch_Helper</class>
             </productSearch>
         </helpers>
     </global>

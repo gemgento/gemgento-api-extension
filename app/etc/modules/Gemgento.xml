@@ -1,8 +1,8 @@
 <config>
     <modules>
-        <Mauigento_ProductSearch>
+        <Gemgento_ProductSearch>
             <active>true</active>
             <codePool>community</codePool>
-        </Mauigento_ProductSearch>
+        </Gemgento_ProductSearch>
     </modules>
 </config>

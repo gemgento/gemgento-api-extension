@@ -1,8 +1,8 @@
 <?php
 
-class Mauigento_ProductSearch_Helper_Data extends Mage_CatalogSearch_Helper_Data {
+class Gemgento_ProductSearch_Helper_Data extends Mage_CatalogSearch_Helper_Data {
 
-    public function MauigentoApiSetQueryText($queryText) {
+    public function GemgentoApiSetQueryText($queryText) {
 
         $this->_queryText = $queryText;
         if ($this->_queryText === null) {
@@ -56,7 +56,7 @@ class Mauigento_ProductSearch_Helper_Data extends Mage_CatalogSearch_Helper_Data
         return $this;
     }
 
-    public function mauigentoCustomSearchInit() {
+    public function gemgentoCustomSearchInit() {
         $query = Mage::helper('catalogsearch')->getQuery();
 
         $query->setStoreId(Mage::app()->getStore()->getId());

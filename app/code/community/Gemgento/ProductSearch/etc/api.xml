@@ -2,13 +2,13 @@
     <api>
         <resources>
             <productSearch translate="title" module="productSearch">
-                <title>Mauigento Product Search</title>
+                <title>Gemgento Product Search</title>
                 <model>productSearch/api</model>
-                <acl>mauigento/productSearch</acl>
+                <acl>gemgento/productSearch</acl>
                 <methods>
                     <results translate="title" module="productSearch">
                         <title>Perform a search and return resulting product Ids</title>
-                        <acl>mauigento/productSearch/allaccess</acl>
+                        <acl>gemgento/productSearch/allaccess</acl>
                     </results>
                 </methods>
             </productSearch>
@@ -20,12 +20,12 @@
         </v2>
         <acl><!-- Access Control Results  to our resources, this tree structure is displayed in "Resource Roles" panel when you open role to edit -->
             <resources>
-                <mauigento translate="title" module="productSearch">
-                    <title>Mauigento</title>
+                <gemgento translate="title" module="productSearch">
+                    <title>Gemgento</title>
                     <productSearch translate="title" module="productSearch">
                         <title>Product Search</title>
                     </productSearch>
-                </mauigento>
+                </gemgento>
             </resources>
         </acl>
     </api>
