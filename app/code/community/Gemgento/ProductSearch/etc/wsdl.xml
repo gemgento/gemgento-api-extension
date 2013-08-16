@@ -16,7 +16,7 @@
     </message>
     <portType name="{{var wsdl.handler}}PortType">
         <operation name="productSearchResults">
-            <documentation>this is an example of api method...</documentation>
+            <documentation>Perform a search.</documentation>
             <input message="typens:productSearchResultsRequest" />
             <output message="typens:productSearchResultsResponse" />
         </operation>

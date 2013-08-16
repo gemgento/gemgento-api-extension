@@ -17,9 +17,6 @@ class Gemgento_ProductSearch_Model_Api extends Mage_Catalog_Model_Api_Resource {
 
         if ($productList) {
             foreach ($productList as $product) {
-//                $result[] = array(
-//                    'product_id' => $product->getId()
-//                );
                 $result[] = $product->getId();
             }
         }
