@@ -13,6 +13,11 @@
                 </methods>
             </productSearch>
         </resources>
+        <v2>
+            <resources_function_prefix>
+                <productSearch>productSearch</productSearch>
+            </resources_function_prefix>
+        </v2>
         <acl><!-- Access Control Results  to our resources, this tree structure is displayed in "Resource Roles" panel when you open role to edit -->
             <resources>
                 <mauigento translate="title" module="productSearch">

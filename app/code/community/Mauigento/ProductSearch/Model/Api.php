@@ -2,25 +2,40 @@
 
 class Mauigento_ProductSearch_Model_Api extends Mage_Catalog_Model_Api_Resource {
 
-    public function results($filter, $limit = null, $page = 0) {
-        $return = array();
+    public function results($query, $limit = null, $page = 0) {
+        $result = array();
 
         if ($limit !== null && !is_numeric($limit)) {
             $this->_fault('invalid_limit', 'The supplied limit for the search results is invalid!');
-            return $return;
+            return $result;
         } elseif (!is_numeric($page)) {
             $this->_fault('invalid_page', 'The supplied page for the search results is invalid!');
-            return $return;
+            return $result;
         }
 
+        $productList = $this->_performSearch($query, $limit, $page);
+
+        if ($productList) {
+            foreach ($productList as $product) {
+//                $result[] = array(
+//                    'product_id' => $product->getId()
+//                );
+                $result[] = $product->getId();
+            }
+        }
+
+        return $result;
+    }
+
+    private function _performSearch($query, $limit = null, $page = 0) {
         $currentStoreId = Mage::app()->getStore()->getId();
         // Use default Store if Store has not been set already
         if (!$currentStoreId) {
             Mage::app()->getStore()->setId(Mage::app()->getDefaultStoreView()->getStoreId());
         }
-        
+
         //Set the search parameter
-        Mage::helper('productSearch')->getRequest()->setParam('q', $filter);
+        Mage::helper('productSearch')->getRequest()->setParam('q', $query);
 
         //Save or get the query data from the database
         Mage::helper('productSearch')->mauigentoCustomSearchInit();
@@ -42,16 +57,10 @@ class Mauigento_ProductSearch_Model_Api extends Mage_Catalog_Model_Api_Resource 
         if ($currentSearchType && ($currentSearchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT || $currentSearchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE)) {
             $productList->getSelect()->order(array('relevance DESC'));
         }
-
-        if ($productList) {
-            foreach ($productList as $product) {
-                $return[] = $product->getId();
-            }
-        }
         
-        return $return;
+        return $productList;
     }
-
+    
 }
 
 ?>
