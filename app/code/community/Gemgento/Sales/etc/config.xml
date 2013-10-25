@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+         <Gemgento_Sales>
+            <version>0.0.1</version>
+        </Gemgento_Sales>
+    </modules>
+    <global>
+        <models>
+            <sales>
+                <rewrite>
+                    <service_quote>Gemgento_Sales_Model_Service_Quote</service_quote>
+                </rewrite>
+            </sales>
+        </models>
+   </global>
+</config>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+         <Gemgento_Catalog>
+            <version>0.0.1</version>
+        </Gemgento_Catalog>
+    </modules>
+    <global>
+        <models>
+            <catalog>
+                <rewrite>
+                    <product_action>Gemgento_Catalog_Model_Product_Action</product_action>
+                </rewrite>
+            </catalog>
+        </models>
+   </global>
+</config>

@@ -4,5 +4,37 @@
             <active>true</active>
             <codePool>community</codePool>
         </Gemgento_ProductSearch>
+        
+        <Gemgento_Catalog>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Catalog/>
+            </depends>
+        </Gemgento_Catalog>
+        
+        <Gemgento_Paygate>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Paygate/>
+            </depends>
+        </Gemgento_Paygate>
+        
+        <Gemgento_Sales>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Sales/>
+            </depends>
+        </Gemgento_Sales>
+        
+        <Gemgento_Payment>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Payment/>
+            </depends>
+        </Gemgento_Payment>
     </modules>
 </config>
