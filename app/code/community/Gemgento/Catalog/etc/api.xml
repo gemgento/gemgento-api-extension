@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <catalog_category translate="title" module="catalog">
+                <model>catalog/category_api</model>
+                <title>Category API</title>
+                <methods>
+                    <assignedProducts translate="title" module="catalog">
+                        <title>Retrieve list of assigned products</title>
+                        <acl>catalog/category/product</acl>
+                    </assignedProducts>
+                </methods>
+            </catalog_category>
+        </resources>
+        <resources_alias>
+            <category>catalog_category</category>
+        </resources_alias>
+    </api>
+</config>

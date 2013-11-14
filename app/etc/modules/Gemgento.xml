@@ -36,5 +36,18 @@
                 <Mage_Payment/>
             </depends>
         </Gemgento_Payment>
+        
+        <Gemgento_Checkout>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Checkout/>
+            </depends>
+        </Gemgento_Checkout>
+        
+        <Bubble_Api>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Bubble_Api>
     </modules>
 </config>
