@@ -196,7 +196,7 @@ class Gemgento_Push_Model_Observer {
     public function order($observer) {
         $order = $observer->getEvent()->getOrder();
         $data = array();
-        
+
         $data['order_id'] = $order->getId();
         $data['shipping_address'] = $this->_getAttributes($order->getShippingAddress(), 'order_address');
         $data['billing_address'] = $this->_getAttributes($order->getBillingAddress(), 'order_address');
