@@ -26,25 +26,23 @@ class Gemgento_Push_Model_Observer {
 
         self::push('product', $data['product_id'], $data);
 
-        print_r($data);
         exit;
     }
 
     public function stock($observer) {
-        $stock_item = $observer->getEvent()->getItem();
-        $product = $stock_item->getProduct();
-
-        $data = array(
-            'product_id' => $product->getId(),
-            'sku' => $product->getSku(),
-            'qty' => $stock_item->getQty(),
-            'is_in_stock' => $stock_item->getIsInStock()
-        );
-
-        self::push('inventories', $data['product_id'], $data);
-
-        print_r($data);
-        exit;
+//        $stock_item = $observer->getEvent()->getItem();
+//        $product = $stock_item->getProduct();
+//
+//        $data = array(
+//            'product_id' => $product->getId(),
+//            'sku' => $product->getSku(),
+//            'qty' => $stock_item->getQty(),
+//            'is_in_stock' => $stock_item->getIsInStock()
+//        );
+//
+//        self::push('inventories', $data['product_id'], $data);
+//
+//        exit;
     }
 
     public function category($observer) {
@@ -63,7 +61,6 @@ class Gemgento_Push_Model_Observer {
 
         self::push('categories', $data['category_id'], $data);
 
-        print_r($data);
         exit;
     }
 
@@ -75,9 +72,8 @@ class Gemgento_Push_Model_Observer {
             'name' => $attribute_set->getAttributeSetName()
         );
 
-        self::push('product_attribute_sets', $data);
+        self::push('product_attribute_sets', $data['set_id'], $data);
 
-        print_r($data);
         exit;
     }
 
@@ -181,26 +177,52 @@ class Gemgento_Push_Model_Observer {
 
         self::push('product_attributes', $data['attribute_id'], $data);
 
-        print_r($data);
         exit;
     }
 
     public function customer($observer) {
         $customer = $observer->getEvent()->getCustomer();
         $data = array();
-        
+
         foreach ($customer->getAttributes() as $attribute) {
             $data[$attribute->getAttributeCode()] = $customer->getData($attribute->getAttributeCode());
         }
 
-        self::push('product_attribute_sets', $data);
+        self::push('users', $data['entity_id'], $data);
 
-        print_r($data);
-        die;
+        exit;
     }
 
     public function order($observer) {
-        die(__METHOD__);
+        $order = $observer->getEvent()->getOrder();
+        $data = array();
+        
+        $data['order_id'] = $order->getId();
+        $data['shipping_address'] = $this->_getAttributes($order->getShippingAddress(), 'order_address');
+        $data['billing_address'] = $this->_getAttributes($order->getBillingAddress(), 'order_address');
+        $data['items'] = array();
+
+        foreach ($order->getAllItems() as $item) {
+            if ($item->getGiftMessageId() > 0) {
+                $item->setGiftMessage(
+                        Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())->getMessage()
+                );
+            }
+
+            $data['items'][] = $this->_getAttributes($item, 'order_item');
+        }
+
+//        $data['payment'] = $this->_getAttributes($order->getPayment(), 'order_payment');
+
+        $data['status_history'] = array();
+
+        foreach ($order->getAllStatusHistory() as $history) {
+            $data['status_history'][] = $this->_getAttributes($history, 'order_status_history');
+        }
+
+        self::push('orders', $data['order_id'], $data);
+
+        die;
     }
 
     private function push($action, $id, $data) {
@@ -216,8 +238,67 @@ class Gemgento_Push_Model_Observer {
         );
 
         $result = curl_exec($ch);
+        print_r($data_string);
+        return $result;
+    }
+
+    /**
+     * Retrieve entity attributes values
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @param array $attributes
+     * @return Mage_Sales_Model_Api_Resource
+     */
+    protected function _getAttributes($object, $type, array $attributes = null) {
+        $result = array();
+
+        if (!is_object($object)) {
+            return $result;
+        }
+
+        foreach ($object->getData() as $attribute => $value) {
+            if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
+                $result[$attribute] = $value;
+            }
+        }
+
+        if (isset($this->_attributesMap['global'])) {
+            foreach ($this->_attributesMap['global'] as $alias => $attributeCode) {
+                $result[$alias] = $object->getData($attributeCode);
+            }
+        }
+
+        if (isset($this->_attributesMap[$type])) {
+            foreach ($this->_attributesMap[$type] as $alias => $attributeCode) {
+                $result[$alias] = $object->getData($attributeCode);
+            }
+        }
 
         return $result;
+    }
+
+    /**
+     * Check is attribute allowed to usage
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param string $entityType
+     * @param array $attributes
+     * @return boolean
+     */
+    protected function _isAllowedAttribute($attributeCode, $type, array $attributes = null) {
+        if (!empty($attributes) && !(in_array($attributeCode, $attributes))) {
+            return false;
+        }
+
+        if (in_array($attributeCode, $this->_ignoredAttributeCodes['global'])) {
+            return false;
+        }
+
+        if (isset($this->_ignoredAttributeCodes[$type]) && in_array($attributeCode, $this->_ignoredAttributeCodes[$type])) {
+            return false;
+        }
+
+        return true;
     }
 
 }
