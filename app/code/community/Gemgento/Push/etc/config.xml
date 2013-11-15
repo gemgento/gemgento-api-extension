@@ -12,15 +12,103 @@
             </gemgento_push>
         </models>
         <events>
-            <catalog_product_prepare_save>
+            
+            <!-- PRODUCTS -->
+            <catalog_product_save_after>
                 <observers>
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>product_update</method>
+                        <method>product</method>
                     </push>
                 </observers>
-            </catalog_product_prepare_save>
+            </catalog_product_save_after>
+            
+            <!-- PRODUCT IMAGES -->
+            <catalog_product_media_save_before>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>asset</method>
+                    </push>
+                </observers>
+            </catalog_product_media_save_before>
+            
+            <!-- STOCK -->
+            <cataloginventory_stock_item_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>stock</method>
+                    </push>
+                </observers>
+            </cataloginventory_stock_item_save_after>
+            
+            <!-- CATEGORY -->
+            <catalog_category_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>category</method>
+                    </push>
+                </observers>
+            </catalog_category_save_after>
+            
+            <!-- ATTRIBUTE SET -->
+            <eav_entity_attribute_set_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>attribute_set</method>
+                    </push>
+                </observers>
+            </eav_entity_attribute_set_save_after>
+            
+            <!-- ATTRIBUTE -->
+            <catalog_entity_attribute_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>attribute</method>
+                    </push>
+                </observers>
+            </catalog_entity_attribute_save_after>
+            <eav_entity_attribute_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>attribute</method>
+                    </push>
+                </observers>
+            </eav_entity_attribute_save_after>
+            
+            <!-- CUSTOMER -->
+            <customer_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>customer</method>
+                    </push>
+                </observers>
+            </customer_save_after>
+            
+            <!-- ORDER -->
+            <sales_order_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>order</method>
+                    </push>
+                </observers>
+            </sales_order_save_after>
         </events>
     </global>
 </config>
