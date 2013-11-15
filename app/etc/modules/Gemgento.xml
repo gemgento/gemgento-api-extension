@@ -45,6 +45,11 @@
             </depends>
         </Gemgento_Checkout>
         
+        <Gemgento_Push>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Gemgento_Push>
+        
         <Bubble_Api>
             <active>true</active>
             <codePool>community</codePool>
