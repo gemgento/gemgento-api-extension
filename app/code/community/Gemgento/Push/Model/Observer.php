@@ -59,7 +59,7 @@ class Gemgento_Push_Model_Observer {
             $data[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
         }
 
-        self::push('categories', $data['category_id'], $data);
+        self::push('categories', $data['category_id'], ['category' => $data]);
 
         exit;
     }
