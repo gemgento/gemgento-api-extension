@@ -2,7 +2,7 @@
 
 class Gemgento_Push_Model_Observer {
 
-    const URL = 'http://localhost:3000/gemgento/inventories/';
+    const URL = 'http://localhost:3000/';
 
     public function __construct() {
         
@@ -17,32 +17,30 @@ class Gemgento_Push_Model_Observer {
             'set' => $product->getAttributeSetId(),
             'type' => $product->getTypeId(),
             'categories' => $product->getCategoryIds(),
-            'websites' => $product->getWebsiteIds()
+            'websites' => $product->getWebsiteIds(),
+            'stores' => $product->getStoreIds(),
+            'additional_attributes' => array()
         );
 
         foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
-            $data[$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
+            $data['additional_attributes'][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
         }
 
-        self::push('product', $data['product_id'], $data);
-
-        exit;
+        self::push('products', $data['product_id'], $data);
     }
 
     public function stock($observer) {
-//        $stock_item = $observer->getEvent()->getItem();
-//        $product = $stock_item->getProduct();
-//
-//        $data = array(
-//            'product_id' => $product->getId(),
-//            'sku' => $product->getSku(),
-//            'qty' => $stock_item->getQty(),
-//            'is_in_stock' => $stock_item->getIsInStock()
-//        );
-//
-//        self::push('inventories', $data['product_id'], $data);
-//
-//        exit;
+        $stock_item = $observer->getEvent()->getItem();
+        $product = $stock_item->getProduct();
+
+        $data = array(
+            'product_id' => $product->getId(),
+            'sku' => $product->getSku(),
+            'qty' => $stock_item->getQty(),
+            'is_in_stock' => $stock_item->getIsInStock()
+        );
+
+        self::push('inventory', $data['product_id'], $data);
     }
 
     public function category($observer) {
@@ -59,9 +57,7 @@ class Gemgento_Push_Model_Observer {
             $data[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
         }
 
-        self::push('categories', $data['category_id'], ['category' => $data]);
-
-        exit;
+        self::push('categories', $data['category_id'], $data);
     }
 
     public function attribute_set($observer) {
@@ -73,8 +69,6 @@ class Gemgento_Push_Model_Observer {
         );
 
         self::push('product_attribute_sets', $data['set_id'], $data);
-
-        exit;
     }
 
     public function attribute($observer) {
@@ -88,16 +82,18 @@ class Gemgento_Push_Model_Observer {
             $scope = 'store';
         }
 
-        $frontendLabels = array(
-            array(
-                'store_id' => 0,
-                'label' => $model->getFrontendLabel()
-            )
-        );
+        $frontendLabels = array();
+        $options = array();
+        
         foreach ($model->getStoreLabels() as $store_id => $label) {
             $frontendLabels[] = array(
                 'store_id' => $store_id,
                 'label' => $label
+            );
+            
+            $options[] = array(
+                'store_id' => $store_id,
+                'options' => $model->setStoreId($store_id)->getSource()->getAllOptions()
             );
         }
 
@@ -116,8 +112,10 @@ class Gemgento_Push_Model_Observer {
             'is_used_for_promo_rules' => $model->getIsUsedForPromoRules(),
             'is_visible_on_front' => $model->getIsVisibleOnFront(),
             'used_in_product_listing' => $model->getUsedInProductListing(),
-            'frontend_label' => $frontendLabels
+            'frontend_label' => $frontendLabels,
+            'options' => $options
         );
+        
         if ($model->getFrontendInput() != 'price') {
             $data['scope'] = $scope;
         }
@@ -164,20 +162,7 @@ class Gemgento_Push_Model_Observer {
                 break;
         }
 
-        // set options
-        $options = $model->getAllOptions();
-        // remove empty first element
-        if ($model->getFrontendInput() != 'boolean') {
-            array_shift($options);
-        }
-
-        if (count($options) > 0) {
-            $data['options'] = $options;
-        }
-
         self::push('product_attributes', $data['attribute_id'], $data);
-
-        exit;
     }
 
     public function customer($observer) {
@@ -189,8 +174,6 @@ class Gemgento_Push_Model_Observer {
         }
 
         self::push('users', $data['entity_id'], $data);
-
-        exit;
     }
 
     public function order($observer) {
@@ -221,12 +204,10 @@ class Gemgento_Push_Model_Observer {
         }
 
         self::push('orders', $data['order_id'], $data);
-
-        die;
     }
 
     private function push($action, $id, $data) {
-        $data_string = json_encode($data);
+        $data_string = json_encode(Array('data' => $data));
 
         $ch = curl_init(self::URL . $action . '/' . $id);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -238,7 +219,7 @@ class Gemgento_Push_Model_Observer {
         );
 
         $result = curl_exec($ch);
-        print_r($data_string);
+
         return $result;
     }
 

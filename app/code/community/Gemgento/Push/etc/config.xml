@@ -24,17 +24,6 @@
                 </observers>
             </catalog_product_save_after>
             
-            <!-- PRODUCT IMAGES -->
-            <catalog_product_media_save_before>
-                <observers>
-                    <push>
-                        <type>singleton</type>
-                        <class>Gemgento_Push_Model_Observer</class>
-                        <method>asset</method>
-                    </push>
-                </observers>
-            </catalog_product_media_save_before>
-            
             <!-- STOCK -->
             <cataloginventory_stock_item_save_after>
                 <observers>
