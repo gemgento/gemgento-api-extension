@@ -54,5 +54,10 @@
             <active>true</active>
             <codePool>community</codePool>
         </Bubble_Api>
+        
+        <Gemgento_Order>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Gemgento_Order>
     </modules>
 </config>
