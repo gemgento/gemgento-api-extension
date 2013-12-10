@@ -181,6 +181,7 @@ class Gemgento_Push_Model_Observer {
         $data = array();
 
         $data['order_id'] = $order->getId();
+        $data['gemgento_id'] = $order->getGemgentoId();
         $data['store_id'] = $order->getStoreId();
         $data['shipping_address'] = $this->_getAttributes($order->getShippingAddress(), 'order_address');
         $data['billing_address'] = $this->_getAttributes($order->getBillingAddress(), 'order_address');
