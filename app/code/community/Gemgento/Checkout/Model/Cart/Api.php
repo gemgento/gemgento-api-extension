@@ -8,7 +8,7 @@ class Gemgento_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Cart_Api {
      * @param int|string $store
      * @return int
      */
-    public function create($store = null) {
+    public function create($store = null, $gemgentoId = null) {
         $storeId = $this->_getStoreId($store);
 
         try {
@@ -17,6 +17,7 @@ class Gemgento_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Cart_Api {
             $quote->setStoreId($storeId)
                     ->setIsActive(true)
                     ->setIsMultiShipping(false)
+                    ->setGemgentoId($gemgentoId)
                     ->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('create_quote_fault', $e->getMessage());
