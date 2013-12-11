@@ -26,7 +26,7 @@ class Gemgento_Push_Model_Observer {
             $data['additional_attributes'][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
         }
 
-        self::push('products', $data['product_id'], $data);
+        self::push('products', $data['gemgento_id'], $data);
     }
 
     public function stock($observer) {
@@ -62,17 +62,29 @@ class Gemgento_Push_Model_Observer {
 
     public function attribute_set($observer) {
         $attribute_set = $observer->getEvent()->getObject();
-
+        $attributes = Mage::getModel('catalog/product')->getResource()
+                ->loadAllAttributes()
+                ->getSortedAttributes($attribute_set->getId());
+        
         $data = array(
             'set_id' => $attribute_set->getId(),
-            'name' => $attribute_set->getAttributeSetName()
+            'name' => $attribute_set->getAttributeSetName(),
+            'attributes' => array()
         );
+
+        foreach ($attributes as $attribute) {
+            $data['attributes'][] = $attribute->getAttributeId();
+        }
 
         self::push('product_attribute_sets', $data['set_id'], $data);
     }
 
     public function attribute($observer) {
         $model = $observer->getEvent()->getAttribute();
+
+        if ($model->getAttributeCode() === NULL) {
+            return NULL;
+        }
 
         if ($model->isScopeGlobal()) {
             $scope = 'global';
@@ -84,13 +96,13 @@ class Gemgento_Push_Model_Observer {
 
         $frontendLabels = array();
         $options = array();
-        
+
         foreach ($model->getStoreLabels() as $store_id => $label) {
             $frontendLabels[] = array(
                 'store_id' => $store_id,
                 'label' => $label
             );
-            
+
             $options[] = array(
                 'store_id' => $store_id,
                 'options' => $model->setStoreId($store_id)->getSource()->getAllOptions()
@@ -115,7 +127,7 @@ class Gemgento_Push_Model_Observer {
             'frontend_label' => $frontendLabels,
             'options' => $options
         );
-        
+
         if ($model->getFrontendInput() != 'price') {
             $data['scope'] = $scope;
         }
@@ -205,7 +217,7 @@ class Gemgento_Push_Model_Observer {
             $data['status_history'][] = $this->_getAttributes($history, 'order_status_history');
         }
 
-        self::push('orders', $data['order_id'], $data);
+        self::push('orders', $data['gemgento_id'], $data);
     }
 
     private function push($action, $id, $data) {
