@@ -19,10 +19,20 @@
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>product</method>
+                        <method>product_save</method>
                     </push>
                 </observers>
             </catalog_product_save_after>
+            
+            <catalog_product_delete_before>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>product_delete</method>
+                    </push>
+                </observers>
+            </catalog_product_delete_before>
             
             <!-- STOCK -->
             <cataloginventory_stock_item_save_after>

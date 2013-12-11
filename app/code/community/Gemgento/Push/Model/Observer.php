@@ -8,11 +8,12 @@ class Gemgento_Push_Model_Observer {
         
     }
 
-    public function product($observer) {
+    public function product_update($observer) {
         $product = $observer->getProduct();
 
         $data = array(// Basic product data
             'product_id' => $product->getId(),
+            'gemgento_id' => $product->getGemgentoId(),
             'sku' => $product->getSku(),
             'set' => $product->getAttributeSetId(),
             'type' => $product->getTypeId(),
@@ -25,8 +26,31 @@ class Gemgento_Push_Model_Observer {
         foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
             $data['additional_attributes'][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
         }
+        
+        $id = $data['gemgento_id'];
+        
+        if($id == NULL || $id == ''){
+            $id = 0;
+        }
+        
+        self::push('PUT', 'products', $id, $data);
+    }
+    
+    public function product_delete($observer){
+        $product = $observer->getProduct();
+        
+        $data = array(
+            'product_id' => $product->getId(),
+            'gemgento_id' => $product->getGemgentoId()
+        );
+                
+        $id = $data['gemgento_id'];
+        
+        if($id == NULL || $id == ''){
+            $id = 0;
+        }
 
-        self::push('products', $data['gemgento_id'], $data);
+        self::push('DELETE', 'products', $id, $data);
     }
 
     public function stock($observer) {
@@ -40,7 +64,7 @@ class Gemgento_Push_Model_Observer {
             'is_in_stock' => $stock_item->getIsInStock()
         );
 
-        self::push('inventory', $data['product_id'], $data);
+        self::push('PUT', 'inventory', $data['product_id'], $data);
     }
 
     public function category($observer) {
@@ -57,7 +81,7 @@ class Gemgento_Push_Model_Observer {
             $data[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
         }
 
-        self::push('categories', $data['category_id'], $data);
+        self::push('PUT', 'categories', $data['category_id'], $data);
     }
 
     public function attribute_set($observer) {
@@ -76,7 +100,7 @@ class Gemgento_Push_Model_Observer {
             $data['attributes'][] = $attribute->getAttributeId();
         }
 
-        self::push('product_attribute_sets', $data['set_id'], $data);
+        self::push('PUT', 'product_attribute_sets', $data['set_id'], $data);
     }
 
     public function attribute($observer) {
@@ -174,7 +198,7 @@ class Gemgento_Push_Model_Observer {
                 break;
         }
 
-        self::push('product_attributes', $data['attribute_id'], $data);
+        self::push('PUT', 'product_attributes', $data['attribute_id'], $data);
     }
 
     public function customer($observer) {
@@ -185,7 +209,7 @@ class Gemgento_Push_Model_Observer {
             $data[$attribute->getAttributeCode()] = $customer->getData($attribute->getAttributeCode());
         }
 
-        self::push('users', $data['entity_id'], $data);
+        self::push('PUT', 'users', $data['entity_id'], $data);
     }
 
     public function order($observer) {
@@ -217,14 +241,14 @@ class Gemgento_Push_Model_Observer {
             $data['status_history'][] = $this->_getAttributes($history, 'order_status_history');
         }
 
-        self::push('orders', $data['gemgento_id'], $data);
+        self::push('PUT', 'orders', $data['gemgento_id'], $data);
     }
 
-    private function push($action, $id, $data) {
+    private function push($action, $path, $id, $data) {
         $data_string = json_encode(Array('data' => $data));
 
-        $ch = curl_init(self::URL . $action . '/' . $id);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        $ch = curl_init(self::URL . $path . '/' . $id);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $action);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
