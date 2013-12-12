@@ -126,13 +126,19 @@ class Gemgento_Push_Model_Observer {
                 'store_id' => $store_id,
                 'label' => $label
             );
-
+            
+            $store_options = $model->setStoreId($store_id)->getSource()->getAllOptions();
+            
+            if ($store_options[0][0] === NULL){
+                $store_options = array();
+            }
+            
             $options[] = array(
                 'store_id' => $store_id,
-                'options' => $model->setStoreId($store_id)->getSource()->getAllOptions()
+                'options' => $store_options
             );
         }
-
+        
         $data = array(
             'attribute_id' => $model->getId(),
             'attribute_code' => $model->getAttributeCode(),
