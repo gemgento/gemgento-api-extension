@@ -128,8 +128,8 @@ class Gemgento_Push_Model_Observer {
             );
             
             $store_options = $model->setStoreId($store_id)->getSource()->getAllOptions();
-            
-            if ($store_options[0][0] === NULL){
+
+            if (sizeof($store_options) == 1 && $store_options[0]['label'] === ''){
                 $store_options = array();
             }
             
@@ -252,7 +252,7 @@ class Gemgento_Push_Model_Observer {
 
     private function push($action, $path, $id, $data) {
         $data_string = json_encode(Array('data' => $data));
-
+        $mh = curl_multi_init();
         $ch = curl_init(self::URL . $path . '/' . $id);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $action);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
@@ -261,10 +261,11 @@ class Gemgento_Push_Model_Observer {
             'Content-Type: application/json',
             'Content-Length: ' . strlen($data_string))
         );
-
-        $result = curl_exec($ch);
-
-        return $result;
+        
+        curl_multi_add_handle($mh, $ch);
+        
+        $running = 1;
+        curl_multi_exec($ch, $running);
     }
 
     /**
