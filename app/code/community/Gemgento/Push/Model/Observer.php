@@ -2,13 +2,11 @@
 
 class Gemgento_Push_Model_Observer {
 
-    const URL = 'http://localhost:3000/';
-
     public function __construct() {
         
     }
 
-    public function product_update($observer) {
+    public function product_save($observer) {
         $product = $observer->getProduct();
 
         $data = array(// Basic product data
@@ -26,27 +24,27 @@ class Gemgento_Push_Model_Observer {
         foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
             $data['additional_attributes'][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
         }
-        
+
         $id = $data['gemgento_id'];
-        
-        if($id == NULL || $id == ''){
+
+        if ($id == NULL || $id == '') {
             $id = 0;
         }
-        
+
         self::push('PUT', 'products', $id, $data);
     }
-    
-    public function product_delete($observer){
+
+    public function product_delete($observer) {
         $product = $observer->getProduct();
-        
+
         $data = array(
             'product_id' => $product->getId(),
             'gemgento_id' => $product->getGemgentoId()
         );
-                
+
         $id = $data['gemgento_id'];
-        
-        if($id == NULL || $id == ''){
+
+        if ($id == NULL || $id == '') {
             $id = 0;
         }
 
@@ -89,7 +87,7 @@ class Gemgento_Push_Model_Observer {
         $attributes = Mage::getModel('catalog/product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($attribute_set->getId());
-        
+
         $data = array(
             'set_id' => $attribute_set->getId(),
             'name' => $attribute_set->getAttributeSetName(),
@@ -126,19 +124,19 @@ class Gemgento_Push_Model_Observer {
                 'store_id' => $store_id,
                 'label' => $label
             );
-            
+
             $store_options = $model->setStoreId($store_id)->getSource()->getAllOptions();
 
-            if (sizeof($store_options) == 1 && $store_options[0]['label'] === ''){
+            if (sizeof($store_options) == 1 && $store_options[0]['label'] === '') {
                 $store_options = array();
             }
-            
+
             $options[] = array(
                 'store_id' => $store_id,
                 'options' => $store_options
             );
         }
-        
+
         $data = array(
             'attribute_id' => $model->getId(),
             'attribute_code' => $model->getAttributeCode(),
@@ -252,20 +250,29 @@ class Gemgento_Push_Model_Observer {
 
     private function push($action, $path, $id, $data) {
         $data_string = json_encode(Array('data' => $data));
-        $mh = curl_multi_init();
-        $ch = curl_init(self::URL . $path . '/' . $id);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $action);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($data_string))
-        );
-        
-        curl_multi_add_handle($mh, $ch);
-        
-        $running = 1;
-        curl_multi_exec($ch, $running);
+        $parts = parse_url($this->gemgento_url() . $path . '/' . $id);
+
+        $fp = fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
+
+        $out = "$action " . $parts['path'] . " HTTP/1.1\r\n";
+        $out.= "Host: " . $parts['host'] . "\r\n";
+        $out.= "Content-Type: application/json\r\n";
+        $out.= "Content-Length: " . strlen($data_string) . "\r\n";
+        $out.= "Connection: Close\r\n\r\n";
+        $out.= $data_string;
+
+        fwrite($fp, $out);
+        fclose($fp);
+    }
+
+    private function gemgento_url() {
+        $url = Mage::getStoreConfig("gemgento_push/settings/gemgento_url");
+
+        if (substr($url, -1) != '/') {
+            $url .= '/';
+        }
+
+        return $url;
     }
 
     /**

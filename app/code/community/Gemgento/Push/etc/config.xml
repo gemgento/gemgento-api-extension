@@ -110,4 +110,15 @@
             </sales_order_save_after>
         </events>
     </global>
+    
+    <default>
+        <gemgento_push>
+            <config>
+                <gemgento_url>http://localhost:3000/</gemgento_url>
+            </config>
+        </gemgento_push>
+    </default>
+    
 </config>
+
+
