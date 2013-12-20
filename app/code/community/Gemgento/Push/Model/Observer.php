@@ -51,7 +51,7 @@ class Gemgento_Push_Model_Observer {
         self::push('DELETE', 'products', $id, $data);
     }
 
-    public function stock($observer) {
+    public function stock_save($observer) {
         $stock_item = $observer->getEvent()->getItem();
         $product = $stock_item->getProduct();
 
@@ -65,7 +65,7 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'inventory', $data['product_id'], $data);
     }
 
-    public function category($observer) {
+    public function category_save($observer) {
         $category = $observer->getEvent()->getCategory();
 
         $data = array(
@@ -82,7 +82,7 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'categories', $data['category_id'], $data);
     }
 
-    public function attribute_set($observer) {
+    public function attribute_set_save($observer) {
         $attribute_set = $observer->getEvent()->getObject();
         $attributes = Mage::getModel('catalog/product')->getResource()
                 ->loadAllAttributes()
@@ -101,7 +101,7 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'product_attribute_sets', $data['set_id'], $data);
     }
 
-    public function attribute($observer) {
+    public function attribute_save($observer) {
         $model = $observer->getEvent()->getAttribute();
 
         if ($model->getAttributeCode() === NULL) {
@@ -205,7 +205,7 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'product_attributes', $data['attribute_id'], $data);
     }
 
-    public function customer($observer) {
+    public function customer_save($observer) {
         $customer = $observer->getEvent()->getCustomer();
         $data = array();
 
@@ -216,7 +216,7 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'users', $data['entity_id'], $data);
     }
 
-    public function order($observer) {
+    public function order_save($observer) {
         $order = $observer->getEvent()->getOrder();
         $data = array();
 
@@ -246,6 +246,21 @@ class Gemgento_Push_Model_Observer {
         }
 
         self::push('PUT', 'orders', $data['gemgento_id'], $data);
+    }
+    
+    public function store_save($observer){
+        $store = $observer->getEvent()->getStore();
+        
+        $data = array();
+        $data['store_id'] = $store->getId();
+        $data['code'] = $store->getCode();
+        $data['website_id'] = $store->getWebsiteId();
+        $data['group_id'] = $store->getGroupId();
+        $data['name'] = $store->getName();
+        $data['sort_order'] = $store->getSortOrder();
+        $data['is_active'] = $store->getIsActive();
+        
+        self::push('PUT', 'stores', $data['store_id'], $data);
     }
 
     private function push($action, $path, $id, $data) {

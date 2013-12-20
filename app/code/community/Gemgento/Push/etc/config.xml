@@ -40,7 +40,7 @@
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>stock</method>
+                        <method>stock_save</method>
                     </push>
                 </observers>
             </cataloginventory_stock_item_save_after>
@@ -51,7 +51,7 @@
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>category</method>
+                        <method>category_save</method>
                     </push>
                 </observers>
             </catalog_category_save_after>
@@ -62,7 +62,7 @@
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>attribute_set</method>
+                        <method>attribute_set_save</method>
                     </push>
                 </observers>
             </eav_entity_attribute_set_save_after>
@@ -73,7 +73,7 @@
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>attribute</method>
+                        <method>attribute_save</method>
                     </push>
                 </observers>
             </catalog_entity_attribute_save_after>
@@ -82,7 +82,7 @@
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>attribute</method>
+                        <method>attribute_save</method>
                     </push>
                 </observers>
             </eav_entity_attribute_save_after>
@@ -93,7 +93,7 @@
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>customer</method>
+                        <method>customer_save</method>
                     </push>
                 </observers>
             </customer_save_after>
@@ -104,10 +104,21 @@
                     <push>
                         <type>singleton</type>
                         <class>Gemgento_Push_Model_Observer</class>
-                        <method>order</method>
+                        <method>order_save</method>
                     </push>
                 </observers>
             </sales_order_save_after>
+            
+            <!-- STORE -->
+            <store_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>store_save</method>
+                    </push>
+                </observers>
+            </store_save_after>
         </events>
     </global>
     
