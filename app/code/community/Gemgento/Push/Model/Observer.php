@@ -247,10 +247,10 @@ class Gemgento_Push_Model_Observer {
 
         self::push('PUT', 'orders', $data['gemgento_id'], $data);
     }
-    
-    public function store_save($observer){
+
+    public function store_save($observer) {
         $store = $observer->getEvent()->getStore();
-        
+
         $data = array();
         $data['store_id'] = $store->getId();
         $data['code'] = $store->getCode();
@@ -259,7 +259,7 @@ class Gemgento_Push_Model_Observer {
         $data['name'] = $store->getName();
         $data['sort_order'] = $store->getSortOrder();
         $data['is_active'] = $store->getIsActive();
-        
+
         self::push('PUT', 'stores', $data['store_id'], $data);
     }
 
@@ -271,6 +271,11 @@ class Gemgento_Push_Model_Observer {
 
         $out = "$action " . $parts['path'] . " HTTP/1.1\r\n";
         $out.= "Host: " . $parts['host'] . "\r\n";
+
+        if ($this->gemgento_user() !== NULL && $this->gemgento_password() !== NULL) {
+            $out.= "Authorization: Basic " . base64_encode("usernameassword") . "\r\n";
+        }
+
         $out.= "Content-Type: application/json\r\n";
         $out.= "Content-Length: " . strlen($data_string) . "\r\n";
         $out.= "Connection: Close\r\n\r\n";
@@ -288,6 +293,26 @@ class Gemgento_Push_Model_Observer {
         }
 
         return $url;
+    }
+
+    private function gemgento_user() {
+        $user = Mage::getStoreConfig("gemgento_push/settings/gemgento_user");
+
+        if ($user === NULL || $user == '') {
+            return null;
+        } else {
+            return $user;
+        }
+    }
+
+    private function gemgento_password() {
+        $user = Mage::getStoreConfig("gemgento_push/settings/gemgento_password");
+
+        if ($user === NULL || $user == '') {
+            return null;
+        } else {
+            return $user;
+        }
     }
 
     /**

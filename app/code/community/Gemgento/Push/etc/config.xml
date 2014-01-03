@@ -126,6 +126,8 @@
         <gemgento_push>
             <config>
                 <gemgento_url>http://localhost:3000/</gemgento_url>
+                <gemgento_user></gemgento_user>
+                <gemgento_password></gemgento_password>
             </config>
         </gemgento_push>
     </default>
