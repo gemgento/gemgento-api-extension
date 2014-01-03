@@ -273,14 +273,14 @@ class Gemgento_Push_Model_Observer {
         $out.= "Host: " . $parts['host'] . "\r\n";
 
         if ($this->gemgento_user() !== NULL && $this->gemgento_password() !== NULL) {
-            $out.= "Authorization: Basic " . base64_encode("usernameassword") . "\r\n";
+            $out.= "Authorization: Basic " . base64_encode($this->gemgento_user() . ":" . $this->gemgento_password()) . "\r\n";
         }
 
         $out.= "Content-Type: application/json\r\n";
         $out.= "Content-Length: " . strlen($data_string) . "\r\n";
         $out.= "Connection: Close\r\n\r\n";
         $out.= $data_string;
-
+        
         fwrite($fp, $out);
         fclose($fp);
     }
