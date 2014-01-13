@@ -292,7 +292,7 @@ class Gemgento_Push_Model_Observer {
             $url .= '/';
         }
 
-        return $url;
+        return 'magento/' . $url;
     }
 
     private function gemgento_user() {
