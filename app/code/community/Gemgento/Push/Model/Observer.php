@@ -21,9 +21,15 @@ class Gemgento_Push_Model_Observer {
             'additional_attributes' => array()
         );
 
-        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
-            $data['additional_attributes'][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
+        foreach ($data['stores'] as $storeId) { // load attribute values for each store
+            $product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($data['product_id']);
+            $data['additional_attributes'][$storeId] = array();
+            
+            foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+                $data['additional_attributes'][$storeId][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
+            }
         }
+
 
         $id = $data['gemgento_id'];
 
@@ -292,7 +298,7 @@ class Gemgento_Push_Model_Observer {
             $url .= '/';
         }
 
-        return 'magento/' . $url;
+        return $url;
     }
 
     private function gemgento_user() {
