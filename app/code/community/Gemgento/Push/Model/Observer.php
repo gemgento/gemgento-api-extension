@@ -60,19 +60,20 @@ class Gemgento_Push_Model_Observer {
     public function stock_save($observer) {
         $stock_item = $observer->getEvent()->getItem();
         $product = $stock_item->getProduct();
-        $data = array();
+        $data = array(
+            'product_id' => $product->getId(),
+            'inventories' => array()
+        );
         
         foreach ($product->getStoreIds() as $storeId) {
             $stock_item = Mage::getModel('cataloginventory/stock_item')->setStoreId($storeId)->load($observer->getEvent()->getItem()->getId());
             
-            $data[$storeId] = array(
-                'product_id' => $product->getId(),
-                'sku' => $product->getSku(),
+            $data['inventories'][$storeId] = array(
                 'qty' => $stock_item->getQty(),
                 'is_in_stock' => $stock_item->getIsInStock()
             );
         }
-
+        
         self::push('PUT', 'inventory', $data['product_id'], $data);
     }
 
@@ -303,7 +304,7 @@ class Gemgento_Push_Model_Observer {
             $url .= '/';
         }
 
-        return 'magento/' . $url;
+        return $url;
     }
 
     private function gemgento_user() {
