@@ -15,7 +15,6 @@ class Gemgento_Push_Model_Observer {
             'sku' => $product->getSku(),
             'set' => $product->getAttributeSetId(),
             'type' => $product->getTypeId(),
-            'categories' => $product->getCategoryIds(),
             'websites' => $product->getWebsiteIds(),
             'stores' => $product->getStoreIds(),
             'additional_attributes' => array()
@@ -24,10 +23,12 @@ class Gemgento_Push_Model_Observer {
         foreach ($data['stores'] as $storeId) { // load attribute values for each store
             $product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($data['product_id']);
             $data['additional_attributes'][$storeId] = array();
-            
+
             foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
                 $data['additional_attributes'][$storeId][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
             }
+            
+            $data['additional_attributes'][$storeId]['category_ids'] = $product->getCategoryIds();
         }
 
 
@@ -36,7 +37,7 @@ class Gemgento_Push_Model_Observer {
         if ($id == NULL || $id == '') {
             $id = 0;
         }
-
+        
         self::push('PUT', 'products', $id, $data);
     }
 
@@ -64,33 +65,52 @@ class Gemgento_Push_Model_Observer {
             'product_id' => $product->getId(),
             'inventories' => array()
         );
-        
+
         foreach ($product->getStoreIds() as $storeId) {
             $stock_item = Mage::getModel('cataloginventory/stock_item')->setStoreId($storeId)->load($observer->getEvent()->getItem()->getId());
-            
+
             $data['inventories'][$storeId] = array(
                 'qty' => $stock_item->getQty(),
                 'is_in_stock' => $stock_item->getIsInStock()
             );
         }
-        
+
         self::push('PUT', 'inventory', $data['product_id'], $data);
     }
 
     public function category_save($observer) {
         $category = $observer->getEvent()->getCategory();
 
+        // basic category data
         $data = array(
             'category_id' => $category->getId(),
             'is_active' => $category->getIsActive(),
             'position' => $category->getPosition(),
-            'level' => $category->getLevel()
+            'level' => $category->getLevel(),
+            'store_ids' => $category->getStoreIds(),
+            'products' => array()
         );
 
+        // additional category attributes
         foreach ($category->getAttributes() as $attribute) {
             $data[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
         }
+        
+        // store specific product listings
+        foreach ($data['store_ids'] as $storeId) {
+            Mage::getModel('catalog/category')->setStoreId($storeId)->load($data['category_id']);
+            $data['products'][$storeId] = array();
+            $positions = $category->getProductsPosition();
+            $collection = $category->getProductCollection();
 
+            foreach ($collection as $product) {
+                $data['products'][$storeId][] = array(
+                    'product_id' => $product->getId(),
+                    'position' => $positions[$product->getId()]
+                );
+            }
+        }
+        
         self::push('PUT', 'categories', $data['category_id'], $data);
     }
 
@@ -292,7 +312,7 @@ class Gemgento_Push_Model_Observer {
         $out.= "Content-Length: " . strlen($data_string) . "\r\n";
         $out.= "Connection: Close\r\n\r\n";
         $out.= $data_string;
-        
+
         fwrite($fp, $out);
         fclose($fp);
     }
