@@ -8,8 +8,9 @@ class Gemgento_Push_Model_Observer {
 
     public function product_save($observer) {
         $product = $observer->getProduct();
-
-        $data = array(// Basic product data
+        
+        // Basic product data
+        $data = array(
             'product_id' => $product->getId(),
             'gemgento_id' => $product->getGemgentoId(),
             'sku' => $product->getSku(),
@@ -17,10 +18,21 @@ class Gemgento_Push_Model_Observer {
             'type' => $product->getTypeId(),
             'websites' => $product->getWebsiteIds(),
             'stores' => $product->getStoreIds(),
-            'additional_attributes' => array()
+            'additional_attributes' => array(),
+            'simple_product_ids' => array(),
+            'configurable_product_ids' => Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId())
         );
-
-        foreach ($data['stores'] as $storeId) { // load attribute values for each store
+        
+        if ($product->getTypeId() == 'configurable') {
+            $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($product);
+            $simple_collection = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+            foreach($simple_collection as $simple_product){
+                $data['simple_product_ids'][] = $simple_product->getId();
+            }
+        }
+        
+         // load attribute values for each store
+        foreach ($data['stores'] as $storeId) {
             $product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($data['product_id']);
             $data['additional_attributes'][$storeId] = array();
 
