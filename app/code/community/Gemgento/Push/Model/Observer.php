@@ -8,7 +8,7 @@ class Gemgento_Push_Model_Observer {
 
     public function product_save($observer) {
         $product = $observer->getProduct();
-        
+
         // Basic product data
         $data = array(
             'product_id' => $product->getId(),
@@ -22,16 +22,16 @@ class Gemgento_Push_Model_Observer {
             'simple_product_ids' => array(),
             'configurable_product_ids' => Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId())
         );
-        
+
         if ($product->getTypeId() == 'configurable') {
             $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($product);
             $simple_collection = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
-            foreach($simple_collection as $simple_product){
+            foreach ($simple_collection as $simple_product) {
                 $data['simple_product_ids'][] = $simple_product->getId();
             }
         }
-        
-         // load attribute values for each store
+
+        // load attribute values for each store
         foreach ($data['stores'] as $storeId) {
             $product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($data['product_id']);
             $data['additional_attributes'][$storeId] = array();
@@ -39,7 +39,7 @@ class Gemgento_Push_Model_Observer {
             foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
                 $data['additional_attributes'][$storeId][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
             }
-            
+
             $data['additional_attributes'][$storeId]['category_ids'] = $product->getCategoryIds();
         }
 
@@ -49,7 +49,7 @@ class Gemgento_Push_Model_Observer {
         if ($id == NULL || $id == '') {
             $id = 0;
         }
-        
+
         self::push('PUT', 'products', $id, $data);
     }
 
@@ -71,21 +71,39 @@ class Gemgento_Push_Model_Observer {
     }
 
     public function stock_save($observer) {
-        $stock_item = $observer->getEvent()->getItem();
-        $product = Mage::getModel('catalog/product')->load($stock_item->getProductId());
+        $product_id = $observer->getEvent()->getItem()->getProductId();
+        $product = Mage::getModel('catalog/product')->load($product_id);
         $data = array(
-            'product_id' => $product->getProductId(),
+            'product_id' => $product_id,
             'inventories' => array()
         );
 
-        foreach ($product->getStoreIds() as $storeId) {
-            $stock_item = Mage::getModel('cataloginventory/stock_item')->setStoreId($storeId)->load($observer->getEvent()->getItem()->getId());
-
-            $data['inventories'][$storeId] = array(
-                'qty' => $stock_item->getQty(),
-                'is_in_stock' => $stock_item->getIsInStock()
-            );
+        $stock = array(); // stock data for all websites
+        $stockCollection = Mage::getResourceModel('cataloginventory/stock_item_collection')->addProductsFilter(array($product))->load();
+        $maxWebsite_id = 0;
+        
+        foreach ($stockCollection as $stockItem) {
+            $tmpStock = $stockItem->getData();
+            
+            if ($maxWebsite_id < $tmpStock['website_id']) {
+                $maxWebsite_id = $tmpStock['website_id'];
+            }
+            if (in_array($product->getTypeId(), $this->_complexProductTypes)) {
+                $this->_filterComplexProductValues($tmpStock);
+            }
+            $stock[$tmpStock['website_id']] = $tmpStock;
         }
+        
+        foreach ($stock as $key => $value) {
+            if (isset($values['website_id']) && ($value['website_id'] == $maxWebsite_id || empty($value['website_id']))) {
+                unset($stock[$key]);
+            }
+        }
+        
+        $data['inventories'] = $stock;
+
+        print_r($data);
+        exit;
 
         self::push('PUT', 'inventory', $data['product_id'], $data);
     }
@@ -107,7 +125,7 @@ class Gemgento_Push_Model_Observer {
         foreach ($category->getAttributes() as $attribute) {
             $data[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
         }
-        
+
         // store specific product listings
         foreach ($data['store_ids'] as $storeId) {
             Mage::getModel('catalog/category')->setStoreId($storeId)->load($data['category_id']);
@@ -122,7 +140,7 @@ class Gemgento_Push_Model_Observer {
                 );
             }
         }
-        
+
         self::push('PUT', 'categories', $data['category_id'], $data);
     }
 
