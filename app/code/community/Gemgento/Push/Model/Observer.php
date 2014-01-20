@@ -72,9 +72,9 @@ class Gemgento_Push_Model_Observer {
 
     public function stock_save($observer) {
         $stock_item = $observer->getEvent()->getItem();
-        $product = $stock_item->getProduct();
+        $product = Mage::getModel('catalog/product')->load($stock_item->getProductId());
         $data = array(
-            'product_id' => $product->getId(),
+            'product_id' => $product->getProductId(),
             'inventories' => array()
         );
 
