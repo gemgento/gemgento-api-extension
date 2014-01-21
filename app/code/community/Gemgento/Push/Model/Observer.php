@@ -102,9 +102,6 @@ class Gemgento_Push_Model_Observer {
         
         $data['inventories'] = $stock;
 
-        print_r($data);
-        exit;
-
         self::push('PUT', 'inventory', $data['product_id'], $data);
     }
 
