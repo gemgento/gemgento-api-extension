@@ -17,6 +17,18 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            
+            <xsd:element name="shoppingCartOrderRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="quoteId" type="xsd:int" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="store" type="xsd:string" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="agreements" type="typens:ArrayOfString" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="paymentData" type="typens:shoppingCartPaymentMethodEntity" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
         </xsd:schema>
     </wsdl:types>
 </wsdl:definitions>

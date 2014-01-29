@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -31,8 +32,14 @@
  * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+class Gemgento_Checkout_Model_Cart_Payment_Api_V2 extends Gemgento_Checkout_Model_Cart_Payment_Api {
 
- class Gemgento_Checkout_Model_Cart_Payment_Api_V2 extends Gemgento_Checkout_Model_Cart_Payment_Api
-{
-     // Nothing here
+    protected function _preparePaymentData($data) {
+        if (null !== ($_data = get_object_vars($data))) {
+            return parent::_preparePaymentData($_data);
+        }
+
+        return array();
+    }
+
 }

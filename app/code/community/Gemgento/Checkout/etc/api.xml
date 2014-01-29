@@ -12,6 +12,11 @@
                         <method>create</method>
                         <acl>cart/create</acl>
                     </create>
+                    <order translate="title" module="checkout">
+                        <title>Create an order from shopping cart</title>
+                        <method>createOrder</method>
+                        <acl>cart/order</acl>
+                    </order>
                 </methods>
             </cart>
         </resources>

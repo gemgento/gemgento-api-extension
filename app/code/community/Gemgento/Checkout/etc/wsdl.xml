@@ -5,4 +5,13 @@
         <part name="storeId" type="xsd:string"/>
         <part name="gemgentoId" type="xsd:int" minOccurs="0"/>
     </message>
+    
+    <message name="shoppingCartOrderRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="quoteId" type="xsd:int"/>
+        <part name="storeId" type="xsd:string" />
+        <part name="licenses" type="typens:ArrayOfString" />
+        <part name="paymentData" type="typens:shoppingCartPaymentMethodEntity" minOccurs="0"/> 
+    </message> 
+    
 </definitions> 
