@@ -17,6 +17,40 @@
                     <xsd:element name="position" type="xsd:int"/>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="catalogCategoryInfo">
+                <xsd:sequence>
+                    <xsd:element name="category_id" type="xsd:string" />
+                    <xsd:element name="is_active" type="xsd:int" />
+                    <xsd:element name="position" type="xsd:string" />
+                    <xsd:element name="level" type="xsd:string" />
+                    <xsd:element name="parent_id" type="xsd:string" />
+                    <xsd:element name="all_children" type="xsd:string" />
+                    <xsd:element name="children" type="xsd:string" />
+                    <xsd:element name="created_at" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="name" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="url_key" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="description" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="meta_title" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="meta_keywords" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="meta_description" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="path" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="url_path" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="children_count" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="display_mode" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="is_anchor" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="available_sort_by" type="typens:ArrayOfString" minOccurs="0" />
+                    <xsd:element name="custom_design" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="custom_design_apply" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="custom_design_from" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="custom_design_to" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="page_layout" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="custom_layout_update" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="default_sort_by" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="landing_page" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="image" type="xsd:int" minOccurs="0" />
+                </xsd:sequence>
+            </xsd:complexType>
         </xsd:schema>
     </wsdl:types>
 </wsdl:definitions>

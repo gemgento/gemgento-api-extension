@@ -19,6 +19,40 @@
                     </restriction>
                 </complexContent>
             </complexType>
+            <complexType name="catalogCategoryInfo">
+                <all>
+                    <element name="category_id" type="xsd:string"/>
+                    <element name="is_active" type="xsd:int"/>
+                    <element name="position" type="xsd:string"/>
+                    <element name="level" type="xsd:string"/>
+                    <element name="parent_id" type="xsd:string"/>
+                    <element name="all_children" type="xsd:string"/>
+                    <element name="children" type="xsd:string"/>
+                    <element name="created_at" type="xsd:string" minOccurs="0"/>
+                    <element name="updated_at" type="xsd:string" minOccurs="0"/>
+                    <element name="name" type="xsd:string" minOccurs="0"/>
+                    <element name="url_key" type="xsd:string" minOccurs="0"/>
+                    <element name="description" type="xsd:string" minOccurs="0"/>
+                    <element name="meta_title" type="xsd:string" minOccurs="0"/>
+                    <element name="meta_keywords" type="xsd:string" minOccurs="0"/>
+                    <element name="meta_description" type="xsd:string" minOccurs="0"/>
+                    <element name="path" type="xsd:string" minOccurs="0"/>
+                    <element name="url_path" type="xsd:string" minOccurs="0"/>
+                    <element name="children_count" type="xsd:int" minOccurs="0"/>
+                    <element name="display_mode" type="xsd:string" minOccurs="0"/>
+                    <element name="is_anchor" type="xsd:int" minOccurs="0"/>
+                    <element name="available_sort_by" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="custom_design" type="xsd:string" minOccurs="0"/>
+                    <element name="custom_design_apply" type="xsd:string" minOccurs="0"/>
+                    <element name="custom_design_from" type="xsd:string" minOccurs="0"/>
+                    <element name="custom_design_to" type="xsd:string" minOccurs="0"/>
+                    <element name="page_layout" type="xsd:string" minOccurs="0"/>
+                    <element name="custom_layout_update" type="xsd:string" minOccurs="0"/>
+                    <element name="default_sort_by" type="xsd:string" minOccurs="0"/>
+                    <element name="landing_page" type="xsd:int" minOccurs="0"/>
+                    <element name="image" type="xsd:string" minOccurs="0"/>
+                </all>
+            </complexType>
         </schema>
     </types>
 </definitions> 
