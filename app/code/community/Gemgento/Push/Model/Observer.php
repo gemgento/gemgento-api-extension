@@ -1,6 +1,8 @@
 <?php
 
 class Gemgento_Push_Model_Observer {
+    
+    var $_complexProductTypes = array('configurable', 'bundle', 'grouped');
 
     public function __construct() {
         
