@@ -1,7 +1,7 @@
 <?php
 
 class Gemgento_Push_Model_Observer {
-    
+
     var $_complexProductTypes = array('configurable', 'bundle', 'grouped');
 
     public function __construct() {
@@ -83,10 +83,10 @@ class Gemgento_Push_Model_Observer {
         $stock = array(); // stock data for all websites
         $stockCollection = Mage::getResourceModel('cataloginventory/stock_item_collection')->addProductsFilter(array($product))->load();
         $maxWebsite_id = 0;
-        
+
         foreach ($stockCollection as $stockItem) {
             $tmpStock = $stockItem->getData();
-            
+
             if ($maxWebsite_id < $tmpStock['website_id']) {
                 $maxWebsite_id = $tmpStock['website_id'];
             }
@@ -95,13 +95,13 @@ class Gemgento_Push_Model_Observer {
             }
             $stock[$tmpStock['website_id']] = $tmpStock;
         }
-        
+
         foreach ($stock as $key => $value) {
             if (isset($values['website_id']) && ($value['website_id'] == $maxWebsite_id || empty($value['website_id']))) {
                 unset($stock[$key]);
             }
         }
-        
+
         $data['inventories'] = $stock;
 
         self::push('PUT', 'inventory', $data['product_id'], $data);
@@ -373,6 +373,28 @@ class Gemgento_Push_Model_Observer {
             return null;
         } else {
             return $user;
+        }
+    }
+
+    private function _filterComplexProductValues(&$productData) {
+        $validKeys = array(
+            'item_id',
+            'website_id',
+            'product_id',
+            'stock_id',
+            'manage_stock',
+            'use_config_manage_stock',
+            'enable_qty_increments',
+            'use_config_enable_qty_increments',
+            'qty_increments',
+            'use_config_qty_increments',
+            'stock_availability',
+            'is_in_stock',
+        );
+        foreach ($productData as $key => $value) {
+            if (!in_array($key, $validKeys)) {
+                unset($productData[$key]);
+            }
         }
     }
 
