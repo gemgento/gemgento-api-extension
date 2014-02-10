@@ -3,6 +3,10 @@
 class Gemgento_Push_Model_Observer {
 
     var $_complexProductTypes = array('configurable', 'bundle', 'grouped');
+    
+    protected $_ignoredAttributeCodes = array(
+        'global' => array('entity_id', 'attribute_set_id', 'entity_type_id')
+    );
 
     public function __construct() {
         
@@ -281,13 +285,15 @@ class Gemgento_Push_Model_Observer {
         $order = $observer->getEvent()->getOrder();
         $data = array();
 
+        $data = $this->_getAttributes($order, 'order');
+        
         $data['order_id'] = $order->getId();
         $data['gemgento_id'] = $order->getGemgentoId();
         $data['store_id'] = $order->getStoreId();
         $data['shipping_address'] = $this->_getAttributes($order->getShippingAddress(), 'order_address');
         $data['billing_address'] = $this->_getAttributes($order->getBillingAddress(), 'order_address');
         $data['items'] = array();
-
+        
         foreach ($order->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
