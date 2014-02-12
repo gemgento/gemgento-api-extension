@@ -11,7 +11,8 @@
         <part name="quoteId" type="xsd:int"/>
         <part name="storeId" type="xsd:string" />
         <part name="licenses" type="typens:ArrayOfString" />
-        <part name="paymentData" type="typens:shoppingCartPaymentMethodEntity" minOccurs="0"/> 
+        <part name="paymentData" type="typens:shoppingCartPaymentMethodEntity" minOccurs="0"/>
+        <part name="remoteIp" type="xsd:string" minOccurs="0"/>  
     </message> 
     
 </definitions> 

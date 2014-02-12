@@ -26,6 +26,7 @@
                         <xsd:element minOccurs="0" maxOccurs="1" name="store" type="xsd:string" />
                         <xsd:element minOccurs="0" maxOccurs="1" name="agreements" type="typens:ArrayOfString" />
                         <xsd:element minOccurs="0" maxOccurs="1" name="paymentData" type="typens:shoppingCartPaymentMethodEntity" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="remoteIp" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>

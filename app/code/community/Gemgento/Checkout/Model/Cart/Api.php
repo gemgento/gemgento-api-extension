@@ -42,7 +42,7 @@ class Gemgento_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Cart_Api {
      * @param  $agreements array
      * @return string
      */
-    public function createOrder($quoteId, $store = null, $agreements = null, $paymentData = null) {
+    public function createOrder($quoteId, $store = null, $agreements = null, $paymentData = null, $remoteIp = null) {
         $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
         
         if (!empty($requiredAgreements)) {
@@ -59,9 +59,19 @@ class Gemgento_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Cart_Api {
         if ($quote->getCheckoutMethod() == Mage_Checkout_Model_Api_Resource_Customer::MODE_GUEST && !Mage::helper('checkout')->isAllowedGuestCheckout($quote, $quote->getStoreId())) {
             $this->_fault('guest_checkout_is_not_enabled');
         }
-
-        $paymentData = $this->_preparePaymentData($paymentData);
-        $quote->getPayment()->importData($paymentData);
+        
+        // set payment data again so that credit cards can be processed since they are not stored
+        if ($paymentData != null) {
+            $paymentData = $this->_preparePaymentData($paymentData);
+            $quote->getPayment()->importData($paymentData);    
+        }
+        
+        // set the customers ip 
+        if ($remoteIp == null) {
+            $remoteIp = Mage::helper('core/http')->getRemoteAddr();
+        }
+        
+        $quote->setRemoteIp($remoteIp)->save();
 
         /** @var $customerResource Mage_Checkout_Model_Api_Resource_Customer */
         $customerResource = Mage::getModel("checkout/api_resource_customer");
