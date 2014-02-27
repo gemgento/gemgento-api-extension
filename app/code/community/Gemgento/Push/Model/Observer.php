@@ -47,8 +47,25 @@ class Gemgento_Push_Model_Observer {
             }
 
             $data['additional_attributes'][$storeId]['category_ids'] = $product->getCategoryIds();
+            
+            if (isset($data['additional_attributes'][$storeId]['media_gallery']) && isset($data['additional_attributes'][$storeId]['media_gallery']['images'])) {
+                
+                # loop through each image
+                foreach ($data['additional_attributes'][$storeId]['media_gallery']['images'] as $index => $image) {
+                    $types = array();
+                    
+                    # load the type(s) for each image
+                    foreach ($product->getMediaAttributes() as $mediaAttribute) {
+                        if ($product->getData($mediaAttribute->getAttributeCode()) == $image['file']) {
+                            $types[] = $mediaAttribute->getAttributeCode();
+                        }
+                    }
+                    
+                    #set the image types in the result array
+                    $data['additional_attributes'][$storeId]['media_gallery']['images'][$index]['types'] = $types;
+                }
+            }
         }
-
 
         $id = $data['gemgento_id'];
 
@@ -311,8 +328,14 @@ class Gemgento_Push_Model_Observer {
         foreach ($order->getAllStatusHistory() as $history) {
             $data['status_history'][] = $this->_getAttributes($history, 'order_status_history');
         }
+        
+        $id = $data['gemgento_id'];
 
-        self::push('PUT', 'orders', $data['gemgento_id'], $data);
+        if ($id == NULL || $id == '') {
+            $id = 0;
+        }
+
+        self::push('PUT', 'orders', $id, $data);
     }
 
     public function store_save($observer) {
