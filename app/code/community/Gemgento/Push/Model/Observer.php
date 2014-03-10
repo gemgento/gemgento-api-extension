@@ -187,6 +187,12 @@ class Gemgento_Push_Model_Observer {
 
         self::push('PUT', 'product_attribute_sets', $data['set_id'], $data);
     }
+    
+    public function attribute_set_delete($observer) {
+       $attribute_set = $observer->getEvent()->getObject(); 
+       
+       self::push('DELETE', 'product_attribute_sets', $attribute_set->getId(), array());
+    }
 
     public function attribute_save($observer) {
         $model = $observer->getEvent()->getAttribute();
@@ -290,6 +296,12 @@ class Gemgento_Push_Model_Observer {
         }
 
         self::push('PUT', 'product_attributes', $data['attribute_id'], $data);
+    }
+    
+    public function attribute_delete($observer) {
+       $attribute = $observer->getEvent()->getAttribute(); 
+       
+       self::push('DELETE', 'product_attributes', $attribute->getId(), array());
     }
 
     public function customer_save($observer) {

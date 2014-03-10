@@ -77,6 +77,16 @@
                 </observers>
             </eav_entity_attribute_set_save_after>
             
+            <eav_entity_attribute_set_delete_before>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>attribute_set_delete</method>
+                    </push>
+                </observers>
+            </eav_entity_attribute_set_delete_before>
+            
             <!-- ATTRIBUTE -->
             <catalog_entity_attribute_save_after>
                 <observers>
@@ -87,6 +97,7 @@
                     </push>
                 </observers>
             </catalog_entity_attribute_save_after>
+            
             <eav_entity_attribute_save_after>
                 <observers>
                     <push>
@@ -96,6 +107,26 @@
                     </push>
                 </observers>
             </eav_entity_attribute_save_after>
+            
+            <catalog_entity_attribute_delete_before>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>attribute_delete</method>
+                    </push>
+                </observers>
+            </catalog_entity_attribute_delete_before>
+            
+            <eav_entity_attribute_delete_before>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>attribute_delete</method>
+                    </push>
+                </observers>
+            </eav_entity_attribute_delete_before>
             
             <!-- CUSTOMER -->
             <customer_save_after>
