@@ -3,7 +3,6 @@
 class Gemgento_Push_Model_Observer {
 
     var $_complexProductTypes = array('configurable', 'bundle', 'grouped');
-    
     protected $_ignoredAttributeCodes = array(
         'global' => array('entity_id', 'attribute_set_id', 'entity_type_id')
     );
@@ -47,20 +46,20 @@ class Gemgento_Push_Model_Observer {
             }
 
             $data['additional_attributes'][$storeId]['category_ids'] = $product->getCategoryIds();
-            
+
             if (isset($data['additional_attributes'][$storeId]['media_gallery']) && isset($data['additional_attributes'][$storeId]['media_gallery']['images'])) {
-                
+
                 # loop through each image
                 foreach ($data['additional_attributes'][$storeId]['media_gallery']['images'] as $index => $image) {
                     $types = array();
-                    
+
                     # load the type(s) for each image
                     foreach ($product->getMediaAttributes() as $mediaAttribute) {
                         if ($product->getData($mediaAttribute->getAttributeCode()) == $image['file']) {
                             $types[] = $mediaAttribute->getAttributeCode();
                         }
                     }
-                    
+
                     #set the image types in the result array
                     $data['additional_attributes'][$storeId]['media_gallery']['images'][$index]['types'] = $types;
                 }
@@ -162,6 +161,12 @@ class Gemgento_Push_Model_Observer {
         }
 
         self::push('PUT', 'categories', $data['category_id'], $data);
+    }
+
+    public function category_delete($observer) {
+        $category = $observer->getEvent()->getCategory();
+
+        self::push('DELETE', 'categories', $category->getId(), array());
     }
 
     public function attribute_set_save($observer) {
@@ -303,14 +308,14 @@ class Gemgento_Push_Model_Observer {
         $data = array();
 
         $data = $this->_getAttributes($order, 'order');
-        
+
         $data['order_id'] = $order->getId();
         $data['gemgento_id'] = $order->getGemgentoId();
         $data['store_id'] = $order->getStoreId();
         $data['shipping_address'] = $this->_getAttributes($order->getShippingAddress(), 'order_address');
         $data['billing_address'] = $this->_getAttributes($order->getBillingAddress(), 'order_address');
         $data['items'] = array();
-        
+
         foreach ($order->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
@@ -328,7 +333,7 @@ class Gemgento_Push_Model_Observer {
         foreach ($order->getAllStatusHistory() as $history) {
             $data['status_history'][] = $this->_getAttributes($history, 'order_status_history');
         }
-        
+
         $id = $data['gemgento_id'];
 
         if ($id == NULL || $id == '') {
