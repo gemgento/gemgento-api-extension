@@ -11,6 +11,11 @@ class Gemgento_Push_Model_Observer {
         
     }
 
+    /**
+     * Send product data to Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function product_save($observer) {
         $product = $observer->getProduct();
 
@@ -75,6 +80,11 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'products', $id, $data);
     }
 
+    /**
+     * Delete product in Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function product_delete($observer) {
         $product = $observer->getProduct();
 
@@ -92,6 +102,11 @@ class Gemgento_Push_Model_Observer {
         self::push('DELETE', 'products', $id, $data);
     }
 
+    /**
+     * Send stock data to Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function stock_save($observer) {
         $product_id = $observer->getEvent()->getItem()->getProductId();
         $product = Mage::getModel('catalog/product')->load($product_id);
@@ -127,6 +142,11 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'inventory', $data['product_id'], $data);
     }
 
+    /**
+     * Send category data to Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function category_save($observer) {
         $category = $observer->getEvent()->getCategory();
 
@@ -163,12 +183,22 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'categories', $data['category_id'], $data);
     }
 
+    /**
+     * Delete category in Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function category_delete($observer) {
         $category = $observer->getEvent()->getCategory();
 
         self::push('DELETE', 'categories', $category->getId(), array());
     }
 
+    /**
+     * Send attribute set data to Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function attribute_set_save($observer) {
         $attribute_set = $observer->getEvent()->getObject();
         $attributes = Mage::getModel('catalog/product')->getResource()
@@ -188,12 +218,22 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'product_attribute_sets', $data['set_id'], $data);
     }
     
+    /**
+     * Delete attribute set data in Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function attribute_set_delete($observer) {
        $attribute_set = $observer->getEvent()->getObject(); 
        
        self::push('DELETE', 'product_attribute_sets', $attribute_set->getId(), array());
     }
 
+    /**
+     * Send attribute data to Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function attribute_save($observer) {
         $model = $observer->getEvent()->getAttribute();
 
@@ -298,12 +338,22 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'product_attributes', $data['attribute_id'], $data);
     }
     
+    /**
+     * Delete attribute in Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function attribute_delete($observer) {
        $attribute = $observer->getEvent()->getAttribute(); 
        
        self::push('DELETE', 'product_attributes', $attribute->getId(), array());
     }
 
+    /**
+     * Send customer data to Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function customer_save($observer) {
         $customer = $observer->getEvent()->getCustomer();
         $data = array();
@@ -315,12 +365,22 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'users', $data['entity_id'], $data);
     }
     
+    /**
+     * Delete customer in Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function customer_delete($observer) {
         $customer = $observer->getEvent()->getCustomer();
 
         self::push('DELETE', 'users', $customer->getId(), array());
     }
 
+    /**
+     * Send order data to Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function order_save($observer) {
         $order = $observer->getEvent()->getOrder();
         $data = array();
@@ -361,6 +421,11 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'orders', $id, $data);
     }
 
+    /**
+     * Send store data to Gemgento
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
     public function store_save($observer) {
         $store = $observer->getEvent()->getStore();
 
@@ -376,6 +441,14 @@ class Gemgento_Push_Model_Observer {
         self::push('PUT', 'stores', $data['store_id'], $data);
     }
 
+    /**
+     * Send request to Gemgento
+     * 
+     * @param string $action HTTP verb
+     * @param string $path the Gemgento URL relative path
+     * @param integer $id ID of the model
+     * @param array $data paramters to send
+     */
     private function push($action, $path, $id, $data) {
         $data_string = json_encode(Array('data' => $data));
         $parts = parse_url($this->gemgento_url() . $path . '/' . $id);
@@ -398,6 +471,11 @@ class Gemgento_Push_Model_Observer {
         fclose($fp);
     }
 
+    /**
+     * Get the Gemgento URL from configuration
+     * 
+     * @return string
+     */
     private function gemgento_url() {
         $url = Mage::getStoreConfig("gemgento_push/settings/gemgento_url");
 
@@ -408,6 +486,11 @@ class Gemgento_Push_Model_Observer {
         return $url;
     }
 
+    /**
+     * Get the Gemgento HTTP auth user from configuration
+     * 
+     * @return string
+     */
     private function gemgento_user() {
         $user = Mage::getStoreConfig("gemgento_push/settings/gemgento_user");
 
@@ -418,6 +501,11 @@ class Gemgento_Push_Model_Observer {
         }
     }
 
+    /**
+     * Get the Gemgento HTTP auth password from configuration
+     * 
+     * @return string
+     */
     private function gemgento_password() {
         $user = Mage::getStoreConfig("gemgento_push/settings/gemgento_password");
 
