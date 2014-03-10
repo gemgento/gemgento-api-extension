@@ -302,6 +302,12 @@ class Gemgento_Push_Model_Observer {
 
         self::push('PUT', 'users', $data['entity_id'], $data);
     }
+    
+    public function customer_delete($observer) {
+        $customer = $observer->getEvent()->getCustomer();
+
+        self::push('DELETE', 'users', $customer->getId(), array());
+    }
 
     public function order_save($observer) {
         $order = $observer->getEvent()->getOrder();
