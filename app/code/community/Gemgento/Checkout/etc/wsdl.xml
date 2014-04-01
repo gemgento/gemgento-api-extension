@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns:typens="urn:Magento" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="Magento" targetNamespace="urn:Magento">
     <message name="shoppingCartCreateRequest">
-        <part name="sessionId" type="xsd:string"/>
-        <part name="storeId" type="xsd:string"/>
         <part name="gemgentoId" type="xsd:int" minOccurs="0"/>
     </message>
     
     <message name="shoppingCartOrderRequest">
-        <part name="sessionId" type="xsd:string"/>
-        <part name="quoteId" type="xsd:int"/>
-        <part name="storeId" type="xsd:string" />
-        <part name="licenses" type="typens:ArrayOfString" />
         <part name="paymentData" type="typens:shoppingCartPaymentMethodEntity" minOccurs="0"/>
         <part name="remoteIp" type="xsd:string" minOccurs="0"/>  
     </message> 

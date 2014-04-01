@@ -90,7 +90,7 @@ class Gemgento_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Cart_Api {
                     Mage::logException($e);
                 }
             }
-
+            
             $order = $service->getOrder();
             if ($order) {
                 Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order' => $order, 'quote' => $quote));
