@@ -168,12 +168,12 @@ class Gemgento_Push_Model_Observer {
         // store specific product listings
         foreach ($data['store_ids'] as $storeId) {
             Mage::getModel('catalog/category')->setStoreId($storeId)->load($data['category_id']);
-            $data['products'][$storeId] = array();
+            $data['products']["0{$storeId}"] = array();
             $positions = $category->getProductsPosition();
             $collection = $category->getProductCollection();
 
             foreach ($collection as $product) {
-                $data['products'][$storeId][] = array(
+                $data['products']["0{$storeId}"][] = array(
                     'product_id' => $product->getId(),
                     'position' => $positions[$product->getId()]
                 );
