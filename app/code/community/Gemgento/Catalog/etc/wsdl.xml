@@ -54,6 +54,12 @@
                     <element name="include_in_menu" type="xsd:string" minOccurs="0"/>
                 </all>
             </complexType>
+            <complexType name="catalogProductReturnEntity">
+                <all>
+                    <element name="configurable_product_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="simple_product_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                </all>
+            </complexType>
         </schema>
     </types>
 </definitions> 

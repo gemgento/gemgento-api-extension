@@ -11,6 +11,8 @@
                 <rewrite>
                     <category_api>Gemgento_Catalog_Model_Category_Api</category_api>
                     <category_api_v2>Gemgento_Catalog_Model_Category_Api_V2</category_api_v2>
+                    <product_api>Gemgento_Catalog_Model_Product_Api</product_api>
+                    <product_api_v2>Gemgento_Catalog_Model_Product_Api_V2</product_api_v2>
                     <product_action>Gemgento_Catalog_Model_Product_Action</product_action>
                 </rewrite>
             </catalog>
