@@ -66,6 +66,16 @@
                 </observers>
             </catalog_category_delete_before>
             
+            <catalog_category_tree_move_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>category_move</method>
+                    </push>
+                </observers>
+            </catalog_category_tree_move_after>
+            
             <!-- ATTRIBUTE SET -->
             <eav_entity_attribute_set_save_after>
                 <observers>

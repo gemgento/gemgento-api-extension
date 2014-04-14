@@ -193,6 +193,32 @@ class Gemgento_Push_Model_Observer {
 
         self::push('DELETE', 'categories', $category->getId(), array());
     }
+    
+    /**
+     * Change category position.
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
+    public function category_move($observer) {
+        $category = $observer->getEvent()->getCategory();
+
+        // basic category data
+        $data = array(
+            'category_id' => $category->getId(),
+            'is_active' => $category->getIsActive(),
+            'position' => $category->getPosition(),
+            'level' => $category->getLevel(),
+            'store_ids' => $category->getStoreIds(),
+            'products' => array()
+        );
+
+        // additional category attributes
+        foreach ($category->getAttributes() as $attribute) {
+            $data[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
+        }
+        
+        self::push('PUT', 'categories', $data['category_id'], $data);
+    }
 
     /**
      * Send attribute set data to Gemgento
