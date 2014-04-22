@@ -13,6 +13,27 @@
         </models>
         <events>
             
+            <!-- ADDRESSES -->
+            <customer_address_save_after>
+               <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>address_save</method>
+                    </push>
+                </observers> 
+            </customer_address_save_after>
+            
+            <customer_address_delete_before>
+               <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>address_delete</method>
+                    </push>
+                </observers> 
+            </customer_address_delete_before>
+            
             <!-- PRODUCTS -->
             <catalog_product_save_after>
                 <observers>

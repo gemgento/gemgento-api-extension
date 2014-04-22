@@ -10,6 +10,26 @@ class Gemgento_Push_Model_Observer {
     public function __construct() {
         
     }
+    
+    /**
+     * Send customer address data to Gemgento.
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
+    public function address_save($observer) {
+        $data = $observer->getEvent()->getCustomerAddress()->debug();
+        self::push('PUT', 'addresses', $data['entity_id'], $data);
+    }
+    
+    /**
+     * Delete customer address data in Gemgento.
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
+    public function address_delete($observer) {
+        $data = $observer->getEvent()->getCustomerAddress()->debug();
+        self::push('DELETE', 'addresses', $data['entity_id'], $data); 
+    }
 
     /**
      * Send product data to Gemgento
