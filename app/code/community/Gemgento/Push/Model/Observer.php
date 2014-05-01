@@ -37,6 +37,11 @@ class Gemgento_Push_Model_Observer {
      * @param \Varien_Event_Observer $observer
      */
     public function product_save($observer) {
+        
+        if (!is_object(Mage::getSingleton('admin/session')->getUser())) { 
+            return; # if event was not triggered by admin, stop here
+        }
+        
         $product = $observer->getProduct();
 
         // Basic product data
