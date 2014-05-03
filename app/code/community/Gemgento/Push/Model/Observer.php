@@ -17,6 +17,11 @@ class Gemgento_Push_Model_Observer {
      * @param \Varien_Event_Observer $observer
      */
     public function address_save($observer) {
+        
+        if (!is_object(Mage::getSingleton('admin/session')->getUser())) { 
+            return; # if event was not triggered by admin, stop here
+        }
+        
         $data = $observer->getEvent()->getCustomerAddress()->debug();
         self::push('PUT', 'addresses', $data['entity_id'], $data);
     }
@@ -406,6 +411,11 @@ class Gemgento_Push_Model_Observer {
      * @param \Varien_Event_Observer $observer
      */
     public function customer_save($observer) {
+        
+        if (!is_object(Mage::getSingleton('admin/session')->getUser())) { 
+            return; # if event was not triggered by admin, stop here
+        }
+        
         $customer = $observer->getEvent()->getCustomer();
         $data = array();
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+         <Gemgento_Catalog>
+            <version>0.0.1</version>
+        </Gemgento_Catalog>
+    </modules>
+    <global>
+        <models>
+            <customer>
+                <rewrite>
+                    <customer_api>Gemgento_Customer_Model_Customer_Api</customer_api>
+                    <customer_api_v2>Gemgento_Customer_Model_Customer_Api_V2</customer_api_v2>
+                </rewrite>
+            </customer>
+        </models>
+   </global>
+</config>

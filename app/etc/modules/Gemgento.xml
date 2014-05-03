@@ -13,6 +13,14 @@
             </depends>
         </Gemgento_Catalog>
         
+        <Gemgento_Customer>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Customer/>
+            </depends>
+        </Gemgento_Customer>
+        
         <Gemgento_Paygate>
             <active>true</active>
             <codePool>community</codePool>
