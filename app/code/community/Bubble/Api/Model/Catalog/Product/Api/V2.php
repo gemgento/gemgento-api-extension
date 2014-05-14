@@ -2,6 +2,74 @@
 
 class Bubble_Api_Model_Catalog_Product_Api_V2 extends Mage_Catalog_Model_Product_Api_V2
 {
+    
+    /**
+     * Retrieve product info
+     *
+     * @param int|string $productId
+     * @param string|int $store
+     * @param stdClass $attributes
+     * @return array
+     */
+    public function info($productId, $store = null, $attributes = null, $identifierType = null) {
+        $product = $this->_getProduct($productId, $store, $identifierType);
+
+        $result = array(// Basic product data
+            'product_id' => $product->getId(),
+            'sku' => $product->getSku(),
+            'set' => $product->getAttributeSetId(),
+            'type' => $product->getTypeId(),
+            'categories' => $product->getCategoryIds(),
+            'websites' => $product->getWebsiteIds(),
+            'configurable_product_ids' => Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId())
+        );
+
+        // Add id's of associated simple products
+        if ($product->getTypeId() == 'configurable') {
+            $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($product);
+            $simple_collection = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+            foreach ($simple_collection as $simple_product) {
+                $result['simple_product_ids'][] = $simple_product->getId();
+            }
+        }
+
+        $allAttributes = array();
+        if (!empty($attributes->attributes)) {
+            $allAttributes = array_merge($allAttributes, $attributes->attributes);
+        } else {
+            foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+                if ($this->_isAllowedAttribute($attribute, $attributes)) {
+                    $allAttributes[] = $attribute->getAttributeCode();
+                }
+            }
+        }
+
+        $_additionalAttributeCodes = array();
+        if (!empty($attributes->additional_attributes)) {
+            foreach ($attributes->additional_attributes as $k => $_attributeCode) {
+                $allAttributes[] = $_attributeCode;
+                $_additionalAttributeCodes[] = $_attributeCode;
+            }
+        }
+
+        $_additionalAttribute = 0;
+        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+            if ($this->_isAllowedAttribute($attribute, $allAttributes)) {
+                if (in_array($attribute->getAttributeCode(), $_additionalAttributeCodes)) {
+                    $result['additional_attributes'][$_additionalAttribute]['key'] = $attribute->getAttributeCode();
+                    $result['additional_attributes'][$_additionalAttribute]['value'] = $product
+                            ->getData($attribute->getAttributeCode());
+                    $_additionalAttribute++;
+                } else {
+                    $result[$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
+                }
+            }
+        }
+
+        return $result;
+    }
+    
+    
     public function create($type, $set, $sku, $productData, $store = null)
     {
         // Allow attribute set name instead of id

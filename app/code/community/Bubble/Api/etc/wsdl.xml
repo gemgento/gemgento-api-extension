@@ -6,6 +6,12 @@
              name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
     <types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <complexType name="catalogProductReturnEntity">
+                <all>
+                    <element name="configurable_product_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="simple_product_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                </all>
+            </complexType>
             <complexType name="catalogProductCreateEntity">
                 <all>
                     <element name="associated_skus" type="typens:ArrayOfString" minOccurs="0"/>

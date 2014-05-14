@@ -52,12 +52,7 @@
                     <xsd:element name="include_in_menu" type="xsd:int" minOccurs="0" />
                 </xsd:sequence>
             </xsd:complexType>
-            <xsd:complexType name="catalogProductReturnEntity">
-                <xsd:sequence>
-                    <xsd:element name="configurable_product_ids" type="typens:ArrayOfString" minOccurs="0" />
-                    <xsd:element name="simple_product_ids" type="typens:ArrayOfString" minOccurs="0" />
-                </xsd:sequence>
-            </xsd:complexType>
+
         </xsd:schema>
     </wsdl:types>
 </wsdl:definitions>
