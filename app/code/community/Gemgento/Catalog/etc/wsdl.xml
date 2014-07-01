@@ -54,6 +54,51 @@
                     <element name="include_in_menu" type="xsd:string" minOccurs="0"/>
                 </all>
             </complexType>
+            
+            <complexType name="categoryProductPositionEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:categoryProductPositionEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="categoryProductPositionEntity">
+                <all>
+                    <element name="productId" type="xsd:ind" />
+                    <element name="position" type="xsd:int"/>
+                </all>
+            </complexType>
         </schema>
     </types>
+    
+    <message name="catalogCategoryUpdateProductPositionsRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="categoryId" type="xsd:int" />
+        <part name="productPositions" type="typens:categoryProductPositionEntityArray"/>
+        <part name="storeId" type="xsd:int" />
+    </message>
+    <message name="catalogCategoryUpdateProductPositionsResponse">
+        <part name="response" type="xsd:boolean" />
+    </message>
+    
+    <portType name="{{var wsdl.handler}}PortType">
+        <operation name="catalogCategoryUpdateProductPositions">
+            <documentation>Update category product positions.</documentation>
+            <input message="typens:catalogCategoryUpdateProductPositionsRequest" />
+            <output message="typens:catalogCategoryUpdateProductPositionsResponse" />
+        </operation>
+    </portType>
+    
+    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="catalogCategoryUpdateProductPositions">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+    </binding>
 </definitions> 

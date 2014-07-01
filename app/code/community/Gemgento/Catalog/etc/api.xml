@@ -10,11 +10,12 @@
                         <title>Retrieve list of assigned products</title>
                         <acl>catalog/category/product</acl>
                     </assignedProducts>
+                    <updateProductPositions translate="title" module="catalog">
+                        <title>Update category product positions</title>
+                        <acl>catalog/category</acl>
+                    </updateProductPositions>
                 </methods>
             </catalog_category>
         </resources>
-        <resources_alias>
-            <category>catalog_category</category>
-        </resources_alias>
     </api>
 </config>

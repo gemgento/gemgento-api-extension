@@ -1,6 +1,6 @@
 <?php
-class Gemgento_Catalog_Model_Category_Api extends Mage_Catalog_Model_Category_Api
-{
+
+class Gemgento_Catalog_Model_Category_Api extends Mage_Catalog_Model_Category_Api {
 
     /**
      * Initilize and return category model
@@ -9,11 +9,10 @@ class Gemgento_Catalog_Model_Category_Api extends Mage_Catalog_Model_Category_Ap
      * @param string|int $store
      * @return Mage_Catalog_Model_Category
      */
-    protected function _initCategory($categoryId, $store = null)
-    {
+    protected function _initCategory($categoryId, $store = null) {
         $category = Mage::getModel('catalog/category')
-            ->setStoreId( ( $store == null ? $this->_getStoreId($store) : $store ) )
-            ->load($categoryId);
+                ->setStoreId(( $store == null ? $this->_getStoreId($store) : $store))
+                ->load($categoryId);
 
         if (!$category->getId()) {
             $this->_fault('not_exists');
@@ -22,7 +21,6 @@ class Gemgento_Catalog_Model_Category_Api extends Mage_Catalog_Model_Category_Ap
         return $category;
     }
 
-
     /**
      * Retrieve list of assigned products to category
      *
@@ -30,8 +28,7 @@ class Gemgento_Catalog_Model_Category_Api extends Mage_Catalog_Model_Category_Ap
      * @param string|int $storeId
      * @return array
      */
-    public function assignedProducts($categoryId, $storeId = 0)
-    {
+    public function assignedProducts($categoryId, $storeId = 0) {
         $category = $this->_initCategory($categoryId, $storeId);
         $positions = $category->getProductsPosition();
         $collection = $category->setStoreId($storeId)->getProductCollection();
@@ -40,15 +37,37 @@ class Gemgento_Catalog_Model_Category_Api extends Mage_Catalog_Model_Category_Ap
         foreach ($collection as $product) {
             $result[] = array(
                 'product_id' => $product->getId(),
-                'type'       => $product->getTypeId(),
-                'set'        => $product->getAttributeSetId(),
-                'sku'        => $product->getSku(),
-                'position'   => $positions[$product->getId()]
+                'type' => $product->getTypeId(),
+                'set' => $product->getAttributeSetId(),
+                'sku' => $product->getSku(),
+                'position' => $positions[$product->getId()]
             );
         }
 
         return $result;
     }
-    
 
-} // Class Mage_Catalog_Model_Category_Api End
+    /**
+     * 
+     * @param array $productPositions
+     */
+    public function updateProductPositions($categoryId, $productPositions, $storeId = 0) {
+        $category = $this->_initCategory($categoryId, $storeId);
+        $positions = $category->getProductsPosition();
+
+        foreach($productPositions as $productPosition) {
+            $positions[$productPosition->productId] = $productPosition->position;
+        }
+        
+        try {
+            $category->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('data_invalid', $e->getMessage());
+        }
+
+        return true;
+    }
+
+}
+
+// Class Mage_Catalog_Model_Category_Api End
