@@ -48,16 +48,24 @@ class Gemgento_Catalog_Model_Category_Api extends Mage_Catalog_Model_Category_Ap
     }
 
     /**
+     * Update category production positions
      * 
      * @param array $productPositions
+     * @return Boolean
      */
     public function updateProductPositions($categoryId, $productPositions, $storeId = 0) {
         $category = $this->_initCategory($categoryId, $storeId);
         $positions = $category->getProductsPosition();
 
         foreach($productPositions as $productPosition) {
+            if (!isset($positions[$productPosition->productId])) {
+                $this->_fault('product_not_assigned');
+            }
+        
             $positions[$productPosition->productId] = $productPosition->position;
         }
+        
+        $category->setPostedProducts($positions);
         
         try {
             $category->save();
