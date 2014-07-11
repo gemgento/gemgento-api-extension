@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <catalog_product_tag translate="title" module="tag">
+                <title>Product Tag API</title>
+                <model>tag/api</model>
+                <methods>
+                    <manage translate="title" module="tag">
+                        <title>Manage a product tag</title>
+                        <acl>catalog/product/tag/update</acl>
+                    </manage>
+                </methods>
+            </catalog_product_tag>
+        </resources>
+    </api>
+</config>

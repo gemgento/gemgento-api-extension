@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+         <Gemgento_Tag>
+            <version>0.0.1</version>
+        </Gemgento_Tag>
+    </modules>
+    <global>
+        <models>
+            <tag>
+                <rewrite>
+                    <api>Gemgento_Tag_Model_Api</api>
+                    <api_v2>Gemgento_Tag_Model_Api_V2</api_v2>
+                </rewrite>
+            </tag>
+        </models>
+   </global>
+</config>

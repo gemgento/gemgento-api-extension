@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+    name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+
+    <message name="catalogProductTagManageRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="name" type="xsd:string" minOccurs="1" />
+        <part name="status" type="xsd:string" minOccurs="1" />
+        <part name="basePopularity" type="xsd:string" minOccurs="1" />
+        <part name="productIds" type="typens:ArrayOfInt" minOccurs="1" />
+        <part name="store" type="xsd:string" minOccurs="1" />
+        <part name="tagId" type="xsd:int" minOccurs="0" />
+    </message>
+    <message name="catalogProductTagManageResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+
+    <portType name="{{var wsdl.handler}}PortType">
+        <operation name="catalogProductTagManage">
+            <documentation>Manage a product tag</documentation>
+            <input message="typens:catalogProductTagManageRequest" />
+            <output message="typens:catalogProductTagManageResponse" />
+        </operation>
+    </portType>
+
+    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="catalogProductTagManage">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+    </binding>
+    
+</definitions>

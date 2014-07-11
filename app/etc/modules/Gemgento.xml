@@ -58,6 +58,11 @@
             <codePool>community</codePool>
         </Gemgento_Push>
         
+        <Gemgento_Tag>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Gemgento_Tag>
+        
         <Bubble_Api>
             <active>true</active>
             <codePool>community</codePool>
