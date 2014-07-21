@@ -1,0 +1,33 @@
+<config>
+    <modules>
+        <Gemgento_ApiLogger>
+            <version>1.0.0</version>
+        </Gemgento_ApiLogger>
+    </modules>
+    <global>
+        <models>
+            <api>
+                <rewrite>
+                    <server_handler>Gemgento_ApiLogger_Model_Api_Server_Handler</server_handler>
+                    <server_v2_handler>Gemgento_ApiLogger_Model_Api_Server_V2_Handler</server_v2_handler>
+                </rewrite>
+            </api>
+            <gemgento_apilogger>
+                <class>Gemgento_ApiLogger_Model</class>
+            </gemgento_apilogger>
+        </models>
+        <helpers>
+            <gemgento_apilogger>
+                <class>Gemgento_ApiLogger_Helper</class>
+            </gemgento_apilogger>
+        </helpers>
+    </global>
+    
+    <default>
+        <gemgento_apilogger>
+            <config>
+                <gemgento_apilogger_enabled>0</gemgento_apilogger_enabled>
+            </config>
+        </gemgento_apilogger>
+    </default>
+</config>

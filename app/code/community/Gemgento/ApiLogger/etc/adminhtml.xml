@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- © Copyright Gemgento LLC, 2014. All rights reserved. -->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <gemgento_apilogger>
+                                        <title>Gemgento API Logger</title> <!-- Used in resources tree -->
+                                    </gemgento_apilogger>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -18,7 +18,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function address_save($observer) {
         
-        if (!is_object(Mage::getSingleton('admin/session')->getUser())) { 
+        if (!$this->_isAdmin()) { 
             return; # if event was not triggered by admin, stop here
         }
         
@@ -666,6 +666,15 @@ class Gemgento_Push_Model_Observer {
         }
 
         return true;
+    }
+    
+    /**
+     * Determine of action was caused by administrator.
+     * 
+     * @return boolean
+     */
+    protected function _isAdmin() {
+        return is_object(Mage::getSingleton('admin/session')->getUser());
     }
 
 }
