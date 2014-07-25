@@ -4,8 +4,10 @@ class Gemgento_CatalogRule_Model_Api extends Mage_Catalog_Model_Api_Resource {
 
     public function items() {
         $catalogrules = array();
-
-        foreach (Mage::getModel('catalogrule/rule')->getResourceCollection() as $rule) {
+        $collection = Mage::getModel('catalogrule/rule')->getResourceCollection();
+        $collection->addWebsitesToResult();
+        
+        foreach ($collection as $rule) {
             $data = $this->_getAttributes($rule, 'rule');
             unset($data['actions_serialized']);
             unset($data['conditions_serialized']);

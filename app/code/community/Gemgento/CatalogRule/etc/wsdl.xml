@@ -28,6 +28,8 @@
                     <element name="sub_is_enable" type="xsd:int"/>
                     <element name="sub_simple_action" type="xsd:string"/>
                     <element name="sub_discount_amount" type="xsd:string"/>
+                    <element name="website_ids" type="typens:ArrayOfInt"/>
+                    <element name="customer_group_ids" type="typens:ArrayOfInt"/>
                     <element name="conditions" type="typens:categoryRuleConditionEntity"/>
                 </all>
             </complexType>
