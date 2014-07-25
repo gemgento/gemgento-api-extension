@@ -1,0 +1,14 @@
+<config>
+    <modules>
+        <Gemgento_CatalogRule>
+            <version>0.0.1</version>
+        </Gemgento_CatalogRule>
+    </modules>
+    <global>
+        <models>
+            <catalogRule>
+                <class>Gemgento_CatalogRule_Model</class>
+            </catalogRule>
+        </models>
+    </global>
+</config>

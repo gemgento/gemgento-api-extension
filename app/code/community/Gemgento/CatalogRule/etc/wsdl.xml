@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+            
+            <complexType name="categoryRuleEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:categoryRuleEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="categoryRuleEntity">
+                <all>
+                    <element name="rule_id" type="xsd:int" />
+                    <element name="name" type="xsd:string"/>
+                    <element name="description" type="xsd:string"/>
+                    <element name="from_date" type="xsd:string"/>
+                    <element name="to_date" type="xsd:string"/>
+                    <element name="is_active" type="xsd:int"/>
+                    <element name="stop_rules_processing" type="xsd:int"/>
+                    <element name="sort_order" type="xsd:int"/>
+                    <element name="simple_action" type="xsd:string"/>
+                    <element name="discount_amount" type="xsd:string"/>
+                    <element name="sub_is_enable" type="xsd:int"/>
+                    <element name="sub_simple_action" type="xsd:string"/>
+                    <element name="sub_discount_amount" type="xsd:string"/>
+                    <element name="conditions" type="typens:categoryRuleConditionEntity"/>
+                </all>
+            </complexType>
+            
+            <complexType name="categoryRuleConditionEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:categoryRuleConditionEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="categoryRuleConditionEntity">
+                <all>
+                    <element name="type" type="xsd:string" />
+                    <element name="attribute" type="xsd:string" />
+                    <element name="operator" type="xsd:string" />
+                    <element name="value" type="xsd:string" />
+                    <element name="is_value_processed" type="xsd:string" />
+                    <element name="aggregator" type="xsd:string" minOccurs="0" />
+                    <element name="conditions" type="typens:categoryRuleConditionEntityArray" minOccurs="0" />
+                </all>
+            </complexType>
+        </schema>
+    </types>
+    <message name="catalogRuleListRequest">
+        <part name="sessionId" type="xsd:string"/>
+    </message>
+    <message name="catalogRuleListResponse">
+        <part name="result" type="typens:categoryRuleEntityArray" />
+    </message>
+    <portType name="{{var wsdl.handler}}PortType">
+        <operation name="catalogRuleList">
+            <documentation>Get all CatalogRules</documentation>
+            <input message="typens:catalogRuleListRequest" />
+            <output message="typens:catalogRuleListResponse" />
+        </operation>
+    </portType>
+    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="catalogRuleList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+    </binding>
+    <service name="{{var wsdl.name}}Service">
+        <port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+            <soap:address location="{{var wsdl.url}}" />
+        </port>
+    </service>
+</definitions> 

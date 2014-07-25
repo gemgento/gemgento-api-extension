@@ -10,22 +10,22 @@ class Gemgento_Push_Model_Observer {
     public function __construct() {
         
     }
-    
+
     /**
      * Send customer address data to Gemgento.
      * 
      * @param \Varien_Event_Observer $observer
      */
     public function address_save($observer) {
-        
-        if (!$this->_isAdmin()) { 
+
+        if (!$this->_isAdmin()) {
             return; # if event was not triggered by admin, stop here
         }
-        
+
         $data = $observer->getEvent()->getCustomerAddress()->debug();
         self::push('PUT', 'addresses', $data['entity_id'], $data);
     }
-    
+
     /**
      * Delete customer address data in Gemgento.
      * 
@@ -33,7 +33,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function address_delete($observer) {
         $data = $observer->getEvent()->getCustomerAddress()->debug();
-        self::push('DELETE', 'addresses', $data['entity_id'], $data); 
+        self::push('DELETE', 'addresses', $data['entity_id'], $data);
     }
 
     /**
@@ -42,11 +42,11 @@ class Gemgento_Push_Model_Observer {
      * @param \Varien_Event_Observer $observer
      */
     public function product_save($observer) {
-        
-        if (!is_object(Mage::getSingleton('admin/session')->getUser())) { 
+
+        if (!is_object(Mage::getSingleton('admin/session')->getUser())) {
             return; # if event was not triggered by admin, stop here
         }
-        
+
         $product = $observer->getProduct();
 
         // Basic product data
@@ -178,11 +178,11 @@ class Gemgento_Push_Model_Observer {
      * @param \Varien_Event_Observer $observer
      */
     public function category_save($observer) {
-        
-        if (!is_object(Mage::getSingleton('admin/session')->getUser())) { 
+
+        if (!is_object(Mage::getSingleton('admin/session')->getUser())) {
             return; # if event was not triggered by admin, stop here
         }
-        
+
         $category = $observer->getEvent()->getCategory();
 
         // basic category data
@@ -228,18 +228,18 @@ class Gemgento_Push_Model_Observer {
 
         self::push('DELETE', 'categories', $category->getId(), array());
     }
-    
+
     /**
      * Change category position.
      * 
      * @param \Varien_Event_Observer $observer
      */
     public function category_move($observer) {
-        
-        if (!is_object(Mage::getSingleton('admin/session')->getUser())) { 
+
+        if (!is_object(Mage::getSingleton('admin/session')->getUser())) {
             return; # if event was not triggered by admin, stop here
         }
-        
+
         $category = $observer->getEvent()->getCategory();
 
         // basic category data
@@ -256,7 +256,7 @@ class Gemgento_Push_Model_Observer {
         foreach ($category->getAttributes() as $attribute) {
             $data[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
         }
-        
+
         self::push('PUT', 'categories', $data['category_id'], $data);
     }
 
@@ -283,16 +283,16 @@ class Gemgento_Push_Model_Observer {
 
         self::push('PUT', 'product_attribute_sets', $data['set_id'], $data);
     }
-    
+
     /**
      * Delete attribute set data in Gemgento
      * 
      * @param \Varien_Event_Observer $observer
      */
     public function attribute_set_delete($observer) {
-       $attribute_set = $observer->getEvent()->getObject(); 
-       
-       self::push('DELETE', 'product_attribute_sets', $attribute_set->getId(), array());
+        $attribute_set = $observer->getEvent()->getObject();
+
+        self::push('DELETE', 'product_attribute_sets', $attribute_set->getId(), array());
     }
 
     /**
@@ -403,16 +403,16 @@ class Gemgento_Push_Model_Observer {
 
         self::push('PUT', 'product_attributes', $data['attribute_id'], $data);
     }
-    
+
     /**
      * Delete attribute in Gemgento
      * 
      * @param \Varien_Event_Observer $observer
      */
     public function attribute_delete($observer) {
-       $attribute = $observer->getEvent()->getAttribute(); 
-       
-       self::push('DELETE', 'product_attributes', $attribute->getId(), array());
+        $attribute = $observer->getEvent()->getAttribute();
+
+        self::push('DELETE', 'product_attributes', $attribute->getId(), array());
     }
 
     /**
@@ -421,11 +421,11 @@ class Gemgento_Push_Model_Observer {
      * @param \Varien_Event_Observer $observer
      */
     public function customer_save($observer) {
-        
-        if (!is_object(Mage::getSingleton('admin/session')->getUser())) { 
+
+        if (!is_object(Mage::getSingleton('admin/session')->getUser())) {
             return; # if event was not triggered by admin, stop here
         }
-        
+
         $customer = $observer->getEvent()->getCustomer();
         $data = array();
 
@@ -435,7 +435,7 @@ class Gemgento_Push_Model_Observer {
 
         self::push('PUT', 'users', $data['entity_id'], $data);
     }
-    
+
     /**
      * Delete customer in Gemgento
      * 
@@ -490,6 +490,31 @@ class Gemgento_Push_Model_Observer {
         }
 
         self::push('PUT', 'orders', $id, $data);
+    }
+
+    /**
+     * Send CatalogRule data to Gemgento.
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
+    public function rule_save($observer) {
+        $rule = $observer->getEvent()->getDataObject();
+        $data = $this->_getAttributes($rule, 'rule');
+        unset($data['actions_serialized']);
+        unset($data['conditions_serialized']);
+        $data['conditions'] = unserialize($rule->getConditionsSerialized());
+
+        self::push('PUT', 'price_rules', $data['rule_id'], $data);
+    }
+
+    /**
+     * Delete a CatalogRule in Gemgento.
+     * 
+     * @param \Varien_Event_Observer $observer
+     */
+    public function rule_delete($observer) {
+        $data = $observer->getEvent()->getDataObject()->debug();
+        self::push('DELETE', 'price_rules', $data['rule_id'], $data);
     }
 
     /**
@@ -667,7 +692,7 @@ class Gemgento_Push_Model_Observer {
 
         return true;
     }
-    
+
     /**
      * Determine of action was caused by administrator.
      * 

@@ -13,6 +13,11 @@
             </depends>
         </Gemgento_Catalog>
         
+        <Gemgento_CatalogRule>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Gemgento_CatalogRule>
+        
         <Gemgento_Customer>
             <active>true</active>
             <codePool>community</codePool>

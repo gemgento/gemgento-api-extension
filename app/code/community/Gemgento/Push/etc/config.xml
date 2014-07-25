@@ -97,6 +97,27 @@
                 </observers>
             </catalog_category_tree_move_after>
             
+            <!-- PRICE RULES -->
+            <catalogrule_rule_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>rule_save</method>
+                    </push>
+                </observers>
+            </catalogrule_rule_save_after>
+            
+            <catalogrule_rule_delete_before>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>rule_delete</method>
+                    </push>
+                </observers>
+            </catalogrule_rule_delete_before>
+            
             <!-- ATTRIBUTE SET -->
             <eav_entity_attribute_set_save_after>
                 <observers>

@@ -1,0 +1,35 @@
+<config>
+    <api>
+        <resources>
+            <catalogRule translate="title" module="catalogRule">
+                <title>Gemgento Catalog Rule API</title>
+                <model>catalogRule/api</model>
+                <acl>gemgento/catalogRule</acl>
+                <methods>
+                    <list translate="title" module="catalogRule">
+                        <title>Get a list of Catalog Rules</title>
+                        <acl>gemgento/catalogRule</acl>
+                        <method>items</method>
+                    </list>
+                </methods>
+            </catalogRule>
+        </resources>
+        <v2>
+            <resources_function_prefix>
+                <catalogRule>catalogRule</catalogRule>
+            </resources_function_prefix>
+        </v2>
+        <acl> Access Control Results  to our resources, this tree structure is displayed in "Resource Roles" panel when you open role to edit 
+            <resources>
+                <gemgento translate="title" module="catalogRule">
+                    <title>Gemgento</title>
+                    <catalogRule translate="title" module="catalogRule">
+                        <title>Catalog Rule API</title>
+                    </catalogRule>
+                </gemgento>
+                <all>
+                </all>
+            </resources>
+        </acl>
+    </api>
+</config>
