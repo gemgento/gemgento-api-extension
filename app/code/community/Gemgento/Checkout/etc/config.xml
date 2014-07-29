@@ -10,10 +10,13 @@
             <checkout>
                 <rewrite>
                     <api_resource_customer>Gemgento_Checkout_Model_Api_Resource_Customer</api_resource_customer>
+                    <api_resource_product>Gemgento_Checkout_Model_Api_Resource_Product</api_resource_product>
                     <cart_api>Gemgento_Checkout_Model_Cart_Api</cart_api>
                     <cart_api_v2>Gemgento_Checkout_Model_Cart_Api_V2</cart_api_v2>
                     <cart_payment_api>Gemgento_Checkout_Model_Cart_Payment_Api</cart_payment_api>
                     <cart_payment_api_v2>Gemgento_Checkout_Model_Cart_Payment_Api_V2</cart_payment_api_v2>
+                    <cart_product_api>Gemgento_Checkout_Model_Cart_Product_Api</cart_product_api>
+                    <cart_product_api_v2>Gemgento_Checkout_Model_Cart_Product_Api_V2</cart_product_api_v2>
                 </rewrite>
             </checkout>
         </models>
