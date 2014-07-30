@@ -1,0 +1,52 @@
+<config>
+    <api>
+        <resources>
+            <sales_recurring_profile translate="title" module="sales">
+                <title>Gemgento Catalog Rule API</title>
+                <model>sales/recurring_profile_api</model>
+                <acl>sales/recurring/profile</acl>
+                <methods>
+                    <list translate="title" module="sales">
+                        <title>Get a list of Catalog Rules</title>
+                        <acl>sales/recurring/profile/list</acl>
+                        <method>items</method>
+                    </list>
+                    <updateState translate="title" module="sales">
+                        <title>Get a list of Catalog Rules</title>
+                        <acl>sales/recurring/profile/updateState</acl>
+                    </updateState>
+                </methods>
+            </sales_recurring_profile>
+        </resources>
+        <resources_alias>
+            <recurring_profile>sales_recurring_profile</recurring_profile>
+        </resources_alias>
+        <v2>
+            <resources_function_prefix>
+                <sales_recurring_profile>salesRecurringProfile</sales_recurring_profile>
+            </resources_function_prefix>
+        </v2>
+        <acl> Access Control Results  to our resources, this tree structure is displayed in "Resource Roles" panel when you open role to edit 
+            <resources>
+                <sales translate="title" module="sales">
+                    <title>Sales</title>
+                    <sort_order>2</sort_order>
+                    <recurring translate="title" module="sales">
+                        <title>Recurring</title>
+                        <profile translate="title" module="sales">
+                            <title>Profiles</title>
+                            <list translate="title" module="sales">
+                                <title>List</title>
+                            </list>
+                            <updateState translate="title" module="sales">
+                                <title>Update State</title>
+                            </updateState>
+                        </profile>
+                    </recurring>
+                </sales>
+                <all>
+                </all>
+            </resources>
+        </acl>
+    </api>
+</config>

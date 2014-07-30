@@ -86,10 +86,5 @@
                 <Mage_Api2 />
             </depends>
         </Gemgento_ApiLogger>
-        
-        <Gemgento_RecurringProfile>
-            <active>true</active>
-            <codePool>community</codePool>
-        </Gemgento_RecurringProfile>
     </modules>
 </config>

@@ -1,6 +1,6 @@
 <?php
 
-class Gemgento_RecurringProfile_Model_Api extends Mage_Catalog_Model_Api_Resource {
+class Gemgento_Sales_Model_Recurring_Profile_Api extends Mage_Sales_Model_Api_Resource {
 
     /**
      * @return array
@@ -14,6 +14,8 @@ class Gemgento_RecurringProfile_Model_Api extends Mage_Catalog_Model_Api_Resourc
             $data['order_ids'] = $profile->getChildOrderIds();
             $profiles[] = $data;
         }
+
+        $profile->save();
 
         return $profiles;
     }

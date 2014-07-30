@@ -6,14 +6,14 @@
         <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
             <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
             
-            <complexType name="recurringProfileEntityArray">
+            <complexType name="salesRecurringProfileEntityArray">
                 <complexContent>
                     <restriction base="soapenc:Array">
-                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:recurringProfileEntity[]"/>
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:salesRecurringProfileEntity[]"/>
                     </restriction>
                 </complexContent>
             </complexType>
-            <complexType name="recurringProfileEntity">
+            <complexType name="salesRecurringProfileEntity">
                 <all>
                     <element name="profile_id" type="xsd:int" />
                     <element name="state" type="xsd:string"/>
@@ -51,37 +51,37 @@
             </complexType>
         </schema>
     </types>
-    <message name="recurringProfileListRequest">
+    <message name="salesRecurringProfileListRequest">
         <part name="sessionId" type="xsd:string"/>
     </message>
-    <message name="recurringProfileListResponse">
-        <part name="result" type="typens:recurringProfileEntityArray" />
+    <message name="salesRecurringProfileListResponse">
+        <part name="result" type="typens:salesRecurringProfileEntityArray" />
     </message>
-    <message name="recurringProfileUpdateStateRequest">
+    <message name="salesRecurringProfileUpdateStateRequest">
         <part name="sessionId" type="xsd:string"/>
         <part name="profileId" type="xsd:int"/>
         <part name="state" type="xsd:string"/>
     </message>
-    <message name="recurringProfileUpdateStateResponse">
+    <message name="salesRecurringProfileUpdateStateResponse">
         <part name="result" type="typens:string" />
     </message>
     
     <portType name="{{var wsdl.handler}}PortType">
-        <operation name="recurringProfileList">
-            <documentation>Get all Recurring Profiles for a customer.</documentation>
-            <input message="typens:recurringProfileListRequest" />
-            <output message="typens:recurringProfileListResponse" />
+        <operation name="salesRecurringProfileList">
+            <documentation>Get all salesRecurring Profiles for a customer.</documentation>
+            <input message="typens:salesRecurringProfileListRequest" />
+            <output message="typens:salesRecurringProfileListResponse" />
         </operation>
-        <operation name="recurringProfileUpdateState">
-            <documentation>Change the state of a recurring profile.</documentation>
-            <input message="typens:recurringProfileUpdateStateRequest" />
-            <output message="typens:recurringProfileUpdateStateResponse" />
+        <operation name="salesRecurringProfileUpdateState">
+            <documentation>Change the state of a salesRecurring profile.</documentation>
+            <input message="typens:salesRecurringProfileUpdateStateRequest" />
+            <output message="typens:salesRecurringProfileUpdateStateResponse" />
         </operation>
     </portType>
     
     <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
-        <operation name="recurringProfileList">
+        <operation name="salesRecurringProfileList">
             <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
             <input>
                 <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
@@ -90,7 +90,7 @@
                 <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
-        <operation name="recurringProfileUpdateState">
+        <operation name="salesRecurringProfileUpdateState">
             <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
             <input>
                 <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
