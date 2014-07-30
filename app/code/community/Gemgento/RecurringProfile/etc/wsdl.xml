@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+            
+            <complexType name="recurringProfileEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:recurringProfileEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="recurringProfileEntity">
+                <all>
+                    <element name="profile_id" type="xsd:int" />
+                    <element name="state" type="xsd:string"/>
+                    <element name="customer_id" type="xsd:int"/>
+                    <element name="store_id" type="xsd:int"/>
+                    <element name="method_code" type="xsd:string"/>
+                    <element name="created_at" type="xsd:string"/>
+                    <element name="updated_at" type="xsd:string"/>
+                    <element name="reference_id" type="xsd:int"/>
+                    <element name="subscriber_name" type="xsd:string"/>
+                    <element name="start_datetime" type="xsd:string"/>
+                    <element name="internal_reference_id" type="xsd:int"/>
+                    <element name="schedule_description" type="xsd:string"/>
+                    <element name="suspension_threshold" type="xsd:string"/>
+                    <element name="bill_failed_later" type="xsd:string"/>
+                    <element name="period_unit" type="xsd:string"/>
+                    <element name="period_frequency" type="xsd:int"/>
+                    <element name="period_max_cycles" type="xsd:int"/>
+                    <element name="billing_amount" type="xsd:double"/>
+                    <element name="trial_period_unit" type="xsd:string"/>
+                    <element name="trial_period_frequency" type="xsd:int"/>
+                    <element name="trial_period_max_cycles" type="xsd:int"/>
+                    <element name="trial_billing_amount" type="xsd:double"/>
+                    <element name="currency_code" type="xsd:string"/>
+                    <element name="shipping_amount" type="xsd:double"/>
+                    <element name="tax_amount" type="xsd:double"/>
+                    <element name="init_amount" type="xsd:double"/>
+                    <element name="init_may_fail" type="xsd:boolean"/>
+                    <element name="order_info" type="xsd:string"/>
+                    <element name="shipping_address_info" type="xsd:string"/>
+                    <element name="profile_vendor_info" type="xsd:string"/>
+                    <element name="additional_info" type="xsd:string"/>
+                    <element name="order_ids" type="typens:ArrayOfInt"/>
+                </all>
+            </complexType>
+        </schema>
+    </types>
+    <message name="recurringProfileListRequest">
+        <part name="sessionId" type="xsd:string"/>
+    </message>
+    <message name="recurringProfileListResponse">
+        <part name="result" type="typens:recurringProfileEntityArray" />
+    </message>
+    <message name="recurringProfileUpdateStateRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="profileId" type="xsd:int"/>
+        <part name="state" type="xsd:string"/>
+    </message>
+    <message name="recurringProfileUpdateStateResponse">
+        <part name="result" type="typens:string" />
+    </message>
+    
+    <portType name="{{var wsdl.handler}}PortType">
+        <operation name="recurringProfileList">
+            <documentation>Get all Recurring Profiles for a customer.</documentation>
+            <input message="typens:recurringProfileListRequest" />
+            <output message="typens:recurringProfileListResponse" />
+        </operation>
+        <operation name="recurringProfileUpdateState">
+            <documentation>Change the state of a recurring profile.</documentation>
+            <input message="typens:recurringProfileUpdateStateRequest" />
+            <output message="typens:recurringProfileUpdateStateResponse" />
+        </operation>
+    </portType>
+    
+    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="recurringProfileList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="recurringProfileUpdateState">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+    </binding>
+    <service name="{{var wsdl.name}}Service">
+        <port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+            <soap:address location="{{var wsdl.url}}" />
+        </port>
+    </service>
+</definitions> 
