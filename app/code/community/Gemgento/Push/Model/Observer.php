@@ -518,6 +518,18 @@ class Gemgento_Push_Model_Observer {
     }
 
     /**
+     * Save Recurring Profile in Gemgento
+     *
+     * @param \Varien_Event_Observer $observer
+     */
+    public function recurring_profile_save($observer) {
+        $profile = $observer->getEvent()->getDataObject();
+        $data = $this->_getAttributes($profile, 'recurring_profile');
+        $data['order_ids'] = $profile->getChildOrderIds();
+        self::push('PUT', 'recurring_profiles', $profile->getId(), $data);
+    }
+
+    /**
      * Send store data to Gemgento
      * 
      * @param \Varien_Event_Observer $observer

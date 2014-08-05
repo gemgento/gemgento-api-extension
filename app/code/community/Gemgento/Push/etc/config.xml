@@ -222,6 +222,17 @@
                     </push>
                 </observers>
             </store_save_after>
+
+            <!-- RECURRING PROFILE -->
+            <sales_recurring_profile_save_after>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>recurring_profile_save</method>
+                    </push>
+                </observers>
+            </sales_recurring_profile_save_after>
         </events>
     </global>
     
