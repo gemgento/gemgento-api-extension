@@ -448,6 +448,31 @@ class Gemgento_Push_Model_Observer {
     }
 
     /**
+     * Send customer group data to Gemgento
+     *
+     * @param \Varien_Event_Observer $observer
+     */
+    public function customer_group_save($observer) {
+        $customerGroup = $observer->getEvent()->getDataObject();
+
+        $data = array();
+        $data['id'] = $customerGroup->getId();
+        $data['code'] = $customerGroup->getCode();
+
+        self::push('PUT', 'user_groups', $data['id'], $data);
+    }
+
+    /**
+     * Delete customer group in Gemgento
+     *
+     * @param \Varien_Event_Observer $observer
+     */
+    public function customer_group_delete($observer) {
+        self::push('DELETE', 'user_groups', $observer->getEvent()->getDataObject()->getId(), array());
+    }
+
+
+    /**
      * Send order data to Gemgento
      * 
      * @param \Varien_Event_Observer $observer
