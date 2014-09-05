@@ -212,13 +212,14 @@
             </customer_group_save_after>
 
             <customer_group_delete_before>
-            <observers>
-                <push>
-                    <type>singleton</type>
-                    <class>Gemgento_Push_Model_Observer</class>
-                    <method>customer_group_delete</method>
-                </push>
-            </observers>
+                <observers>
+                    <push>
+                        <type>singleton</type>
+                        <class>Gemgento_Push_Model_Observer</class>
+                        <method>customer_group_delete</method>
+                    </push>
+                </observers>
+            </customer_group_delete_before>
             
             <!-- ORDER -->
             <sales_order_save_after>
