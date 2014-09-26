@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <modules>
-         <Gemgento_Catalog>
+        <Gemgento_Catalog>
             <version>0.0.1</version>
         </Gemgento_Catalog>
     </modules>
@@ -14,8 +14,10 @@
                     <cart_api_v2>Gemgento_Checkout_Model_Cart_Api_V2</cart_api_v2>
                     <cart_payment_api>Gemgento_Checkout_Model_Cart_Payment_Api</cart_payment_api>
                     <cart_payment_api_v2>Gemgento_Checkout_Model_Cart_Payment_Api_V2</cart_payment_api_v2>
+                    <cart_product_api>Gemgento_Checkout_Model_Cart_Product_Api</cart_product_api>
+                    <cart_product_api_v2>Gemgento_Checkout_Model_Cart_Product_Api_V2</cart_product_api_v2>
                 </rewrite>
             </checkout>
         </models>
-   </global>
+    </global>
 </config>

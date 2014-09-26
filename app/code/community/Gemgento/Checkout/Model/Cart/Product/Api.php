@@ -79,6 +79,12 @@ class Gemgento_Checkout_Model_Cart_Product_Api extends Gemgento_Checkout_Model_A
                 if (is_string($result)) {
                     Mage::throwException($result);
                 }
+                if(isset($productItem['options']['price']) && $productItem['options']['price'] != null) {
+                    $result->setCustomPrice($productItem['options']['price']);
+                    $result->setOriginalCustomPrice($productItem['options']['price']);
+                    $result->getProduct()->setIsSuperMode(true);
+                    $result->save();
+                }
             } catch (Mage_Core_Exception $e) {
                 $errors[] = $e->getMessage();
             }
@@ -301,7 +307,7 @@ class Gemgento_Checkout_Model_Cart_Product_Api extends Gemgento_Checkout_Model_A
                     $quote->removeItem($quoteItem->getId());
                     unset($productsData[$key]);
                 } else {
-                     $errors[] = Mage::helper('checkout')->__("One item of products is not belong any of quote item");
+                    $errors[] = Mage::helper('checkout')->__("One item of products is not belong any of quote item");
                 }
             } catch (Mage_Core_Exception $e) {
                 $errors[] = $e->getMessage();
@@ -321,7 +327,7 @@ class Gemgento_Checkout_Model_Cart_Product_Api extends Gemgento_Checkout_Model_A
                 ->collectTotals()
                 ->save();
         } catch (Exception $e) {
-             $this->_fault("product_move_quote_save_fault", $e->getMessage());
+            $this->_fault("product_move_quote_save_fault", $e->getMessage());
         }
 
         return true;
