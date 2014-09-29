@@ -586,7 +586,18 @@ class Gemgento_Push_Model_Observer {
         $data_string = json_encode(Array('data' => $data));
         $parts = parse_url($this->gemgento_url() . $path . '/' . $id);
 
-        $fp = fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
+        switch ($parts['scheme']) {
+            case 'https':
+                $scheme = 'ssl://';
+                $port = 443;
+                break;
+            case 'http':
+            default:
+                $scheme = '';
+                $port = 80;
+        }
+
+        $fp = fsockopen($scheme . $parts['host'], $port, $errno, $errstr, 30);
 
         $out = "$action " . $parts['path'] . " HTTP/1.1\r\n";
         $out.= "Host: " . $parts['host'] . "\r\n";
