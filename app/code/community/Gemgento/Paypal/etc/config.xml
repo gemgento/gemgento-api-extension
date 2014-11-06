@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Gemgento_Paypal>
+            <version>0.0.1</version>
+        </Gemgento_Paypal>
+    </modules>
+    <frontend>
+        <routers>
+            <paypal>
+                <args>
+                    <modules>
+                        <gemgento_paypal before='Mage_Paypal'>Gemgento_Paypal</gemgento_paypal>
+                    </modules>
+                </args>
+            </paypal>
+        </routers>
+    </frontend>
+</config>

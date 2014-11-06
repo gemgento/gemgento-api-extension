@@ -1,5 +1,20 @@
 <config>
     <modules>
+
+        <Bubble_Api>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Bubble_Api>
+
+        <Gemgento_ApiLogger>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Api />
+                <Mage_Api2 />
+            </depends>
+        </Gemgento_ApiLogger>
+
         <Gemgento_ProductSearch>
             <active>true</active>
             <codePool>community</codePool>
@@ -17,39 +32,7 @@
             <active>true</active>
             <codePool>community</codePool>
         </Gemgento_CatalogRule>
-        
-        <Gemgento_Customer>
-            <active>true</active>
-            <codePool>community</codePool>
-            <depends>
-                <Mage_Customer/>
-            </depends>
-        </Gemgento_Customer>
-        
-        <Gemgento_Paygate>
-            <active>true</active>
-            <codePool>community</codePool>
-            <depends>
-                <Mage_Paygate/>
-            </depends>
-        </Gemgento_Paygate>
-        
-        <Gemgento_Sales>
-            <active>true</active>
-            <codePool>community</codePool>
-            <depends>
-                <Mage_Sales/>
-            </depends>
-        </Gemgento_Sales>
-        
-        <Gemgento_Payment>
-            <active>true</active>
-            <codePool>community</codePool>
-            <depends>
-                <Mage_Payment/>
-            </depends>
-        </Gemgento_Payment>
-        
+
         <Gemgento_Checkout>
             <active>true</active>
             <codePool>community</codePool>
@@ -58,33 +41,60 @@
             </depends>
         </Gemgento_Checkout>
         
-        <Gemgento_Push>
+        <Gemgento_Customer>
             <active>true</active>
             <codePool>community</codePool>
-        </Gemgento_Push>
-        
-        <Gemgento_Tag>
-            <active>true</active>
-            <codePool>community</codePool>
-        </Gemgento_Tag>
-        
-        <Bubble_Api>
-            <active>true</active>
-            <codePool>community</codePool>
-        </Bubble_Api>
-        
+            <depends>
+                <Mage_Customer/>
+            </depends>
+        </Gemgento_Customer>
+
         <Gemgento_Order>
             <active>true</active>
             <codePool>community</codePool>
         </Gemgento_Order>
         
-        <Gemgento_ApiLogger>
+        <Gemgento_Paygate>
             <active>true</active>
             <codePool>community</codePool>
             <depends>
-                <Mage_Api />
-                <Mage_Api2 />
+                <Mage_Paygate/>
             </depends>
-        </Gemgento_ApiLogger>
+        </Gemgento_Paygate>
+
+        <Gemgento_Payment>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Payment/>
+            </depends>
+        </Gemgento_Payment>
+
+        <Gemgento_Paypal>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Paypal/>
+            </depends>
+        </Gemgento_Paypal>
+
+        <Gemgento_Push>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Gemgento_Push>
+        
+        <Gemgento_Sales>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Sales/>
+            </depends>
+        </Gemgento_Sales>
+
+        <Gemgento_Tag>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Gemgento_Tag>
+
     </modules>
 </config>
