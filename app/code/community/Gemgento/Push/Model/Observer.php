@@ -627,6 +627,8 @@ class Gemgento_Push_Model_Observer {
             $url .= '/';
         }
 
+        $url .= 'magento/';
+
         return $url;
     }
 
