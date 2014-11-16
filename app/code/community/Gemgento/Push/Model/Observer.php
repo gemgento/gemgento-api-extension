@@ -585,7 +585,6 @@ class Gemgento_Push_Model_Observer {
     private function push($action, $path, $id, $data) {
         $data_string = json_encode(Array('data' => $data));
         $parts = parse_url($this->gemgento_url() . $path . '/' . $id);
-
         switch ($parts['scheme']) {
             case 'https':
                 $scheme = 'ssl://';
@@ -597,22 +596,21 @@ class Gemgento_Push_Model_Observer {
                 $port = 80;
         }
 
-        $fp = fsockopen($scheme . $parts['host'], $port, $errno, $errstr, 30);
+        if($fp = fsockopen($scheme . $parts['host'], $port, $errno, $errstr, 30)){
+            $out = "$action " . $parts['path'] . " HTTP/1.1\r\n";
+            $out.= "Host: " . $parts['host'] . "\r\n";
 
-        $out = "$action " . $parts['path'] . " HTTP/1.1\r\n";
-        $out.= "Host: " . $parts['host'] . "\r\n";
+            if ($this->gemgento_user() !== NULL && $this->gemgento_password() !== NULL) {
+                $out.= "Authorization: Basic " . base64_encode($this->gemgento_user() . ":" . $this->gemgento_password()) . "\r\n";
+            }
 
-        if ($this->gemgento_user() !== NULL && $this->gemgento_password() !== NULL) {
-            $out.= "Authorization: Basic " . base64_encode($this->gemgento_user() . ":" . $this->gemgento_password()) . "\r\n";
+            $out.= "Content-Type: application/json\r\n";
+            $out.= "Content-Length: " . strlen($data_string) . "\r\n";
+            $out.= "Connection: Close\r\n\r\n";
+            $out.= $data_string;
+            fwrite($fp, $out);
+            fclose($fp);
         }
-
-        $out.= "Content-Type: application/json\r\n";
-        $out.= "Content-Length: " . strlen($data_string) . "\r\n";
-        $out.= "Connection: Close\r\n\r\n";
-        $out.= $data_string;
-
-        fwrite($fp, $out);
-        fclose($fp);
     }
 
     /**
