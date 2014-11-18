@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Bubble_Api>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Bubble_Api>
+    </modules>
+</config>

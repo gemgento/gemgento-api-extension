@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!-- © Copyright Gemgento LLC, 2014. All rights reserved. -->
+<config>
+    <modules>
+        <Gemgento_AdminOrderCreator>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Gemgento_AdminOrderCreator>
+    </modules>
+</config>
