@@ -2,6 +2,25 @@
 
 class Gemgento_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Cart_Payment_Api
 {
+
+    protected function _preparePaymentData($data) {
+        if (!(is_array($data) && is_null($data[0]))) {
+            return array();
+        }
+
+        if (is_array($data['additional_information'])) {
+            $additional_information = array();
+            foreach ($data['additional_information'] as $information) {
+                if (!is_null($information->key) && !is_null($information->value)) {
+                    $additional_information[$information->key] = $information->value;
+                }
+            }
+            $data['additional_information'] = $additional_information;
+        }
+
+        return $data;
+    }
+
     protected function _canUsePaymentMethod($method, $quote)
     {
         if ( !($method->isGateway() || $method->canUseInternal()) && strpos($method->getCode(), 'paypal') === FALSE ) {

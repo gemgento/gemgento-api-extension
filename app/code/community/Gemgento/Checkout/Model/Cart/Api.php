@@ -7,6 +7,16 @@ class Gemgento_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Cart_Api {
             return array();
         }
 
+        if (is_array($data['additional_information'])) {
+            $additional_information = array();
+            foreach ($data['additional_information'] as $information) {
+                if (!is_null($information->key) && !is_null($information->value)) {
+                    $additional_information[$information->key] = $information->value;
+                }
+            }
+            $data['additional_information'] = $additional_information;
+        }
+
         return $data;
     }
 
@@ -79,7 +89,7 @@ class Gemgento_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Cart_Api {
             // cc_number and cc_cid are lost because API is stateless, need to add them back
             if ($paymentData != null) { 
                 $paymentData = $this->_preparePaymentData($paymentData);
-                $service->getQuote()->getPayment()->importData($paymentData);    
+                $service->getQuote()->getPayment()->importData($paymentData);
             }
             
             $service->submitAll();

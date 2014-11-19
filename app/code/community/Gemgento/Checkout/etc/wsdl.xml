@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns:typens="urn:Magento" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="Magento" targetNamespace="urn:Magento">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
+            <complexType name="shoppingCartPaymentMethodEntity">
+                <all>
+                    <element name="additional_information" type="typens:associativeArray" minOccurs="0"/>
+                </all>
+            </complexType>
+        </schema>
+    </types>
+
     <message name="shoppingCartCreateRequest">
         <part name="gemgentoId" type="xsd:int" minOccurs="0"/>
     </message>
