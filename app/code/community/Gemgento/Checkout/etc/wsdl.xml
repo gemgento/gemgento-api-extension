@@ -14,10 +14,11 @@
     <message name="shoppingCartCreateRequest">
         <part name="gemgentoId" type="xsd:int" minOccurs="0"/>
     </message>
-    
+
     <message name="shoppingCartOrderRequest">
         <part name="paymentData" type="typens:shoppingCartPaymentMethodEntity" minOccurs="0"/>
-        <part name="remoteIp" type="xsd:string" minOccurs="0"/>  
-    </message> 
-    
+        <part name="remoteIp" type="xsd:string" minOccurs="0"/>
+        <part name="sendEmail" type="xsd:boolean" minOccurs="0" />
+    </message>
+
 </definitions> 
