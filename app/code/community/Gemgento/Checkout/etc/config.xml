@@ -16,6 +16,10 @@
                     <cart_payment_api_v2>Gemgento_Checkout_Model_Cart_Payment_Api_V2</cart_payment_api_v2>
                     <cart_product_api>Gemgento_Checkout_Model_Cart_Product_Api</cart_product_api>
                     <cart_product_api_v2>Gemgento_Checkout_Model_Cart_Product_Api_V2</cart_product_api_v2>
+                    <cart_customer_api>Gemgento_Checkout_Model_Cart_Customer_Api</cart_customer_api>
+                    <cart_customer_api_v2>Gemgento_Checkout_Model_Cart_Customer_Api_V2</cart_customer_api_v2>
+                    <cart_shipping_api>Gemgento_Checkout_Model_Cart_Shipping_Api</cart_shipping_api>
+                    <cart_shipping_api_v2>Gemgento_Checkout_Model_Cart_Shipping_Api_V2</cart_shipping_api_v2>
                 </rewrite>
             </checkout>
         </models>
