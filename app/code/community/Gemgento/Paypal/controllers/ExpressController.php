@@ -10,6 +10,9 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
      */
     public function startAction()
     {
+        Mage::getSingleton('core/session')->renewSession();
+        Mage::getSingleton('core/session')->unsSessionHosts();
+
         // Create session from Gemgento data
         if(!empty($_GET['store_id'])) {
             Mage::getSingleton('checkout/session')->setStoreId($_GET['store_id']);
@@ -17,7 +20,10 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
         }
 
         if(!empty($_GET['customer_id'])) {
+            Mage::getSingleton('customer/session')->logout();
             Mage::getSingleton('customer/session')->loginById($_GET['customer_id']);
+        } else {
+            Mage::getSingleton('customer/session')->logout();
         }
 
         if(!empty($_GET['quote_id'])) {
@@ -192,6 +198,10 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
                 return;
             }
             $this->_initToken(false); // no need in token anymore
+
+            Mage::getSingleton('customer/session')->logout();
+            Mage::getSingleton('core/session')->renewSession();
+            Mage::getSingleton('core/session')->unsSessionHosts();
 
             header("Location: {$this->_gemgentoUrl()}checkout/thank_you");
             exit;
