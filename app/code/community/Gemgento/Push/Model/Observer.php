@@ -151,14 +151,15 @@ class Gemgento_Push_Model_Observer {
 
         foreach ($stockCollection as $stockItem) {
             $tmpStock = $stockItem->getData();
+            $website_id = (array_key_exists('website_id', $tmpStock)) ? $tmpStock['website_id'] : 0;
 
-            if ($maxWebsite_id < $tmpStock['website_id']) {
-                $maxWebsite_id = $tmpStock['website_id'];
+            if ($maxWebsite_id < $website_id) {
+                $maxWebsite_id = $website_id;
             }
             if (in_array($product->getTypeId(), $this->_complexProductTypes)) {
                 $this->_filterComplexProductValues($tmpStock);
             }
-            $stock[$tmpStock['website_id']] = $tmpStock;
+            $stock[$website_id] = $tmpStock;
         }
 
         foreach ($stock as $key => $value) {
@@ -210,7 +211,7 @@ class Gemgento_Push_Model_Observer {
             foreach ($collection as $product) {
                 $data['products']["0{$storeId}"][] = array(
                     'product_id' => $product->getId(),
-                    'position' => $positions[$product->getId()]
+                    'position' => (array_key_exists($product->getId(), $positions)) ? $positions[$product->getId()] : 0
                 );
             }
         }
