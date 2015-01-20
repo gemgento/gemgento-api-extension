@@ -136,7 +136,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::logException($e);
         }
 
-        header("Location: {$this->_gemgentoUrl()}cart");
+        header("Location: {$this->_gemgentoUrl()}cart?alert=" . urlencode('There was a problem processing the PayPal payment.  Your order has been canceled.'));
         exit;
     }
 
@@ -214,7 +214,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::logException($e);
         }
 
-        header("Location: {$this->_gemgentoUrl()}checkout/confirm");
+        header("Location: {$this->_gemgentoUrl()}checkout/confirm?alert=" . urlencode('There was a problem processing the PayPal payment'));
         exit;
     }
 
