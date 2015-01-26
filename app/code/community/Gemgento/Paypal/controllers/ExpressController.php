@@ -72,7 +72,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::logException($e);
         }
 
-        header("Location: {$this->_gemgentoUrl()}checkout/address" . urlencode('There was a problem processing the PayPal payment'));
+        header("Location: {$this->_gemgentoUrl()}checkout/address?alert=" . urlencode('There was a problem processing the PayPal payment'));
         exit;
     }
 
