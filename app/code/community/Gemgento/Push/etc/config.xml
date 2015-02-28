@@ -11,6 +11,11 @@
                 <class>Gemgento_Push_Model</class>
             </gemgento_push>
         </models>
+        <helpers>
+            <gemgento_push>
+                <class>Gemgento_Push_Helper</class>
+            </gemgento_push>
+        </helpers>
         <events>
             
             <!-- ADDRESSES -->

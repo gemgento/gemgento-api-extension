@@ -33,6 +33,10 @@ class Bubble_Api_Model_Catalog_Product_Api_V2 extends Mage_Catalog_Model_Product
             }
         }
 
+        if ($product->getTypeId() == 'bundle') {
+            $result['bundle_options'] = Mage::helper('bubble_api/catalog_product')->bundleOptions($product);
+        }
+
         $allAttributes = array();
         if (!empty($attributes->attributes)) {
             $allAttributes = array_merge($allAttributes, $attributes->attributes);

@@ -177,4 +177,46 @@ class Bubble_Api_Helper_Catalog_Product extends Mage_Core_Helper_Abstract
 
         return $this;
     }
+
+    public function bundleOptions($product)
+    {
+        $bundleOptions = array();
+
+        foreach( $product->getTypeInstance()->getOptions() as $option )
+        {
+            $bundleOptions[] = array(
+                'id' => $option->getId(),
+                'required' => $option->getRequired(),
+                'position' => $option->getPosition(),
+                'type' => $option->getType(),
+                'default_title' => $option->getDefaultTitle(),
+                'selections' => $this->bundleOptionSelections($product, $option->getId())
+            );
+        }
+
+        return $bundleOptions;
+    }
+
+    public function bundleOptionSelections($product, $optionId)
+    {
+        $optionSelections = array();
+
+        $selections = $product->getTypeInstance(true)->getSelectionsCollection($optionId, $product);
+
+        foreach( $selections as $selection )
+        {
+            $optionSelections[] = array(
+                'id' => $selection->getId(),
+                'product_id' => $selection->getProductId(),
+                'price_type' => $selection->getSelectionPriceType(),
+                'price_value' => $selection->getSelectionPriceValue(),
+                'qty' => $selection->getSelectionQty(),
+                'can_change_qty' => $selection->getSelectionCanChangeQty(),
+                'position' => $selection->getPosition(),
+                'is_default' => $selection->getIsDefault()
+            );
+        }
+
+        return $optionSelections;
+    }
 }

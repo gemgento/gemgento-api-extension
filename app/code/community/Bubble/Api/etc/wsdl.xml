@@ -6,17 +6,60 @@
              name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
     <types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+
             <complexType name="catalogProductReturnEntity">
                 <all>
                     <element name="configurable_product_ids" type="typens:ArrayOfString" minOccurs="0"/>
                     <element name="simple_product_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="bundle_options" type="typens:ArrayOfBundleOptions" minOccurs="0"/>
                 </all>
             </complexType>
+
             <complexType name="catalogProductCreateEntity">
                 <all>
                     <element name="associated_skus" type="typens:ArrayOfString" minOccurs="0"/>
                     <element name="configurable_attributes" type="typens:ArrayOfString" minOccurs="0"/>
                     <element name="price_changes" type="typens:associativeArray" minOccurs="0" />
+                </all>
+            </complexType>
+
+            <complexType name="ArrayOfBundleOptions">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:bundleOption[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+
+            <complexType name="bundleOption">
+                <all>
+                    <element name="id" type="typens:integer" minOccurs="1"/>
+                    <element name="required" type="typens:boolean" minOccurs="1"/>
+                    <element name="position" type="typens:integer" minOccurs="1"/>
+                    <element name="type" type="typens:string" minOccurs="1"/>
+                    <element name="default_title" type="typens:string" minOccurs="1"/>
+                    <element name="selections" type="typens:ArrayOfBundleSelections" minOccurs="1"/>
+                </all>
+            </complexType>
+
+            <complexType name="ArrayOfBundleSelections">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:bundleSelection[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+
+            <complexType name="bundleSelection">
+                <all>
+                    <element name="id" type="typens:integer" minOccurs="1"/>
+                    <element name="product_id" type="typens:integer" minOccurs="1"/>
+                    <element name="price_type" type="typens:string" minOccurs="1"/>
+                    <element name="price_value" type="typens:decimal" minOccurs="1"/>
+                    <element name="qty" type="typens:decimal" minOccurs="1"/>
+                    <element name="can_change_qty" type="typens:boolean" minOccurs="1"/>
+                    <element name="position" type="typens:integer" minOccurs="1"/>
+                    <element name="is_default" type="typens:boolean" minOccurs="1"/>
                 </all>
             </complexType>
         </schema>

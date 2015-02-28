@@ -48,59 +48,7 @@ class Gemgento_Push_Model_Observer {
         }
 
         $product = $observer->getProduct();
-
-        // Basic product data
-        $data = array(
-            'product_id' => $product->getId(),
-            'gemgento_id' => $product->getGemgentoId(),
-            'sku' => $product->getSku(),
-            'set' => $product->getAttributeSetId(),
-            'type' => $product->getTypeId(),
-            'websites' => $product->getWebsiteIds(),
-            'stores' => $product->getStoreIds(),
-            'additional_attributes' => array(),
-            'simple_product_ids' => array(),
-            'configurable_product_ids' => Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId())
-        );
-
-        if ($product->getTypeId() == 'configurable') {
-            $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($product);
-            $simple_collection = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
-            foreach ($simple_collection as $simple_product) {
-                $data['simple_product_ids'][] = $simple_product->getId();
-            }
-        }
-
-        // load attribute values for each store
-        foreach ($data['stores'] as $storeId) {
-            $product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($data['product_id']);
-            $data['additional_attributes'][$storeId] = array();
-
-            foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
-                $data['additional_attributes'][$storeId][$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
-            }
-
-            $data['additional_attributes'][$storeId]['category_ids'] = $product->getCategoryIds();
-
-            if (isset($data['additional_attributes'][$storeId]['media_gallery']) && isset($data['additional_attributes'][$storeId]['media_gallery']['images'])) {
-
-                # loop through each image
-                foreach ($data['additional_attributes'][$storeId]['media_gallery']['images'] as $index => $image) {
-                    $types = array();
-
-                    # load the type(s) for each image
-                    foreach ($product->getMediaAttributes() as $mediaAttribute) {
-                        if ($product->getData($mediaAttribute->getAttributeCode()) == $image['file']) {
-                            $types[] = $mediaAttribute->getAttributeCode();
-                        }
-                    }
-
-                    #set the image types in the result array
-                    $data['additional_attributes'][$storeId]['media_gallery']['images'][$index]['types'] = $types;
-                }
-            }
-        }
-
+        $data =  Mage::helper('gemgento_push/catalog_product')->export($product);
         $id = $data['gemgento_id'];
 
         if ($id == NULL || $id == '') {
