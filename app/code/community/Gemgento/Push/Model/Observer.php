@@ -531,7 +531,7 @@ class Gemgento_Push_Model_Observer {
      * @param integer $id ID of the model
      * @param array $data paramters to send
      */
-    private function push($action, $path, $id, $data) {
+    public function push($action, $path, $id, $data) {
         $data_string = json_encode(Array('data' => $data));
         $parts = parse_url($this->gemgento_url() . $path . '/' . $id);
 
