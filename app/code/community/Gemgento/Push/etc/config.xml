@@ -10,6 +10,12 @@
             <gemgento_push>
                 <class>Gemgento_Push_Model</class>
             </gemgento_push>
+
+            <core>
+                <rewrite>
+                    <email_template>Gemgento_Push_Model_Email_Template</email_template>
+                </rewrite>
+            </core>
         </models>
         <helpers>
             <gemgento_push>
