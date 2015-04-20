@@ -73,7 +73,7 @@ class Gemgento_Checkout_Model_Cart_Product_Api extends Gemgento_Checkout_Model_A
 
     public function setCustomPrice($quoteItem, $customPrice){
         $quoteItem->setCustomPrice($customPrice);
-        $quoteItem->setOriginalCustomPrice();
+        $quoteItem->setOriginalCustomPrice($customPrice);
         $quoteItem->getProduct()->setIsSuperMode(true);
         $quoteItem->save();
     }
