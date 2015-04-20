@@ -48,6 +48,11 @@ class Gemgento_Checkout_Model_Cart_Product_Api extends Gemgento_Checkout_Model_A
                 if (is_string($result)) {
                     Mage::throwException($result);
                 }
+
+                // set a custom price for the quote item
+                if(isset($productItem['options']['custom_price']) && $productItem['options']['custom_price'] != null) {
+                    $this->setCustomPrice($result, $productItem['options']['custom_price']);
+                }
             } catch (Mage_Core_Exception $e) {
                 $errors[] = $e->getMessage();
             }
@@ -65,6 +70,14 @@ class Gemgento_Checkout_Model_Cart_Product_Api extends Gemgento_Checkout_Model_A
 
         return true;
     }
+
+    public function setCustomPrice($quoteItem, $customPrice){
+        $quoteItem->setCustomPrice($customPrice);
+        $quoteItem->setOriginalCustomPrice();
+        $quoteItem->getProduct()->setIsSuperMode(true);
+        $quoteItem->save();
+    }
+
 
     /**
      * @param  $quoteId
@@ -105,6 +118,11 @@ class Gemgento_Checkout_Model_Cart_Product_Api extends Gemgento_Checkout_Model_A
 
             if ($productItem['qty'] > 0) {
                 $quoteItem->setQty($productItem['qty']);
+            }
+
+            // set a custom price for the quote item
+            if(isset($productItem['options']['custom_price']) && $productItem['options']['custom_price'] != null) {
+                $this->setCustomPrice($quoteItem, $productItem['options']['custom_price']);
             }
         }
 
