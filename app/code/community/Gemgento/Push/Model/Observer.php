@@ -529,11 +529,11 @@ class Gemgento_Push_Model_Observer {
      * @param string $action HTTP verb
      * @param string $path the Gemgento URL relative path
      * @param integer $id ID of the model
-     * @param array $data paramters to send
+     * @param array $data parameters to send
      */
     public function push($action, $path, $id, $data) {
         $data_string = json_encode(Array('data' => $data));
-        $url = $this->gemgento_url() . $path . (empty($id) ? '' : "/{$path}");
+        $url = $this->gemgento_url() . $path . (empty($id) ? '' : "/{$id}");
         $parts = parse_url($url);
 
         switch ($parts['scheme']) {
