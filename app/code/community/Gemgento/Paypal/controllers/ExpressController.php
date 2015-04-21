@@ -12,6 +12,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
     {
         Mage::getSingleton('core/session')->renewSession();
         Mage::getSingleton('core/session')->unsSessionHosts();
+        Mage::getSingleton('checkout/session')->getMessages(true);
 
         // Create session from Gemgento data
         if(!empty($_GET['store_id'])) {
@@ -27,7 +28,8 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
         }
 
         if(!empty($_GET['quote_id'])) {
-            Mage::getSingleton('checkout/session')->setQuoteId($_GET['quote_id']);
+            $quote = Mage::getModel('sales/quote')->load($_GET['quote_id']);
+            Mage::getSingleton('checkout/session')->replaceQuote($quote);
         }
 
         try {
