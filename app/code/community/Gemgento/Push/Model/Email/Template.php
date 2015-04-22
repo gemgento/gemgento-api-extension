@@ -61,8 +61,8 @@ class Gemgento_Push_Model_Email_Template extends Mage_Core_Model_Email_Template
         $data = array(
             'recipients' => array(
                   'to' => Mage::helper('gemgento_push/email_template')->recipientStrings($emails, $names),
-                  'cc' => [],
-                  'bcc' => []
+                  'cc' => array(),
+                  'bcc' => array()
             ),
             'sender' => "\"{$this->getSenderName()}\" <{$this->getSenderEmail()}>"
         );
