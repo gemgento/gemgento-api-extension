@@ -227,12 +227,10 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
     private function _initCheckout()
     {
         $quote = $this->_getQuote();
-
         if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
             Mage::throwException(Mage::helper('paypal')->__('Unable to initialize Express Checkout.'));
         }
-
         $this->_checkout = Mage::getSingleton($this->_checkoutType, array(
             'config' => $this->_config,
             'quote'  => $quote,
@@ -267,8 +265,20 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
     private function _getQuote()
     {
         if (!$this->_quote) {
-            $this->_quote = $this->_getCheckoutSession()->getQuote();
+            if ($this->_getCheckoutSession()->getQuoteId()) {
+                $quote = Mage::getModel('sales/quote')->load($this->_getCheckoutSession()->getQuoteId());
+                $this->_getCheckoutSession()->replaceQuote($quote);
+                $this->_quote = $quote;
 
+            } else if ($this->_getCheckoutSession()->quote_id_1) {
+                $quote = Mage::getModel('sales/quote')->load($this->_getCheckoutSession()->quote_id_1);
+                $this->_getCheckoutSession()->replaceQuote($quote);
+                $this->_quote = $quote;
+
+            } else {
+                $this->_quote = $this->_getCheckoutSession()->getQuote();
+
+            }
         }
         return $this->_quote;
     }
