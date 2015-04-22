@@ -78,16 +78,20 @@ class Gemgento_Push_Helper_Catalog_Product extends Mage_Core_Helper_Abstract
     {
         $bundleOptions = array();
 
-        foreach( $product->getTypeInstance()->getOptions() as $option )
+        if($product->getTypeId() == 'bundle')
         {
-            $bundleOptions[] = array(
-                'id' => $option->getId(),
-                'required' => $option->getRequired(),
-                'position' => $option->getPosition(),
-                'type' => $option->getType(),
-                'default_title' => $option->getDefaultTitle(),
-                'selections' => $this->bundleOptionSelections($product, $option->getId())
-            );
+
+            foreach( $product->getTypeInstance()->getOptions() as $option )
+            {
+                $bundleOptions[] = array(
+                    'id' => $option->getId(),
+                    'required' => $option->getRequired(),
+                    'position' => $option->getPosition(),
+                    'type' => $option->getType(),
+                    'default_title' => $option->getDefaultTitle(),
+                    'selections' => $this->bundleOptionSelections($product, $option->getId())
+                );
+            }
         }
 
         return $bundleOptions;
