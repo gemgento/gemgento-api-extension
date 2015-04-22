@@ -205,7 +205,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::getSingleton('core/session')->renewSession();
             Mage::getSingleton('core/session')->unsSessionHosts();
 
-            header("Location: {$this->_gemgentoUrl()}checkout/thank_you");
+            header("Location: {$this->_gemgentoUrl()}checkout/thank_you?paypal={$order->getIncrementId()}");
             exit;
         }
         catch (Mage_Core_Exception $e) {
