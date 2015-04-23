@@ -534,7 +534,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function push($action, $path, $id, $data) {
         $data_string = json_encode(Array('data' => $data));
-        $url = $this->gemgento_url() . $path . (empty($id) ? '' : "/{$id}");
+        $url = $this->gemgento_url() . $path . (!is_numeric($id) && empty($id) ? '' : "/{$id}");
         $parts = parse_url($url);
 
         switch ($parts['scheme']) {
