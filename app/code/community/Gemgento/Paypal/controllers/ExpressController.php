@@ -74,7 +74,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::logException($e);
         }
 
-        header("Location: {$this->_gemgentoUrl()}checkout/address?alert=" . urlencode('There was a problem processing the PayPal payment'));
+        header("Location: {$this->_callbackUrl()}checkout/address?alert=" . urlencode('There was a problem processing the PayPal payment'));
         exit;
     }
 
@@ -111,7 +111,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::logException($e);
         }
 
-        header("Location: {$this->_gemgentoUrl()}cart");
+        header("Location: {$this->_callbackUrl()}cart");
         exit;
     }
 
@@ -127,7 +127,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
         try {
             $this->_initCheckout();
             $this->_checkout->returnFromPaypal($this->_initToken());
-            header("Location: {$this->_gemgentoUrl()}checkout/confirm");
+            header("Location: {$this->_callbackUrl()}checkout/confirm");
             exit;
         }
         catch (Mage_Core_Exception $e) {
@@ -138,7 +138,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::logException($e);
         }
 
-        header("Location: {$this->_gemgentoUrl()}cart?alert=" . urlencode('There was a problem processing the PayPal payment.  Your order has been canceled.'));
+        header("Location: {$this->_callbackUrl()}cart?alert=" . urlencode('There was a problem processing the PayPal payment.  Your order has been canceled.'));
         exit;
     }
 
@@ -205,7 +205,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::getSingleton('core/session')->renewSession();
             Mage::getSingleton('core/session')->unsSessionHosts();
 
-            header("Location: {$this->_gemgentoUrl()}checkout/thank_you?paypal={$order->getIncrementId()}");
+            header("Location: {$this->_callbackUrl()}checkout/paypal/{$order->getIncrementId()}");
             exit;
         }
         catch (Mage_Core_Exception $e) {
@@ -216,7 +216,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
             Mage::logException($e);
         }
 
-        header("Location: {$this->_gemgentoUrl()}checkout/confirm?alert=" . urlencode('There was a problem processing the PayPal payment'));
+        header("Location: {$this->_callbackUrl()}checkout/confirm?alert=" . urlencode('There was a problem processing the PayPal payment'));
         exit;
     }
 
@@ -288,8 +288,8 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
      *
      * @return string
      */
-    private function _gemgentoUrl() {
-        $url = Mage::getStoreConfig("gemgento_push/settings/gemgento_url");
+    private function _callbackUrl() {
+        $url = Mage::getStoreConfig("gemgento_paypal/settings/callback_url");
 
         if (substr($url, -1) != '/') {
             $url .= '/';

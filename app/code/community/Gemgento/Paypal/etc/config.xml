@@ -2,9 +2,10 @@
 <config>
     <modules>
         <Gemgento_Paypal>
-            <version>0.0.4</version>
+            <version>0.0.5</version>
         </Gemgento_Paypal>
     </modules>
+
     <frontend>
         <routers>
             <paypal>
@@ -16,4 +17,12 @@
             </paypal>
         </routers>
     </frontend>
+
+    <default>
+        <gemgento_paypal>
+            <settings>
+                <callback_url>http://localhost:3000/</callback_url>
+            </settings>
+        </gemgento_paypal>
+    </default>
 </config>
