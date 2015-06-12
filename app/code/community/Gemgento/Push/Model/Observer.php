@@ -256,14 +256,6 @@ class Gemgento_Push_Model_Observer {
             return NULL;
         }
 
-        if ($model->isScopeGlobal()) {
-            $scope = 'global';
-        } elseif ($model->isScopeWebsite()) {
-            $scope = 'website';
-        } else {
-            $scope = 'store';
-        }
-
         $frontendLabels = array();
         $options = array();
 
@@ -303,10 +295,6 @@ class Gemgento_Push_Model_Observer {
             'frontend_label' => $frontendLabels,
             'options' => $options
         );
-
-        if ($model->getFrontendInput() != 'price') {
-            $data['scope'] = $scope;
-        }
 
         // set additional fields to different types
         switch ($model->getFrontendInput()) {
