@@ -62,10 +62,22 @@
                     </restriction>
                 </complexContent>
             </complexType>
+
             <complexType name="categoryProductPositionEntity">
                 <all>
-                    <element name="productId" type="xsd:ind" />
+                    <element name="productId" type="xsd:int" />
                     <element name="position" type="xsd:int"/>
+                </all>
+            </complexType>
+
+            <complexType name="catalogProductTierPriceEntity">
+                <all>
+                    <element name="price_id" type="xsd:int"/>
+                    <element name="website_id" type="xsd:int"/>
+                    <element name="all_groups" type="xsd:boolean"/>
+                    <element name="cust_group" type="xsd:int"/>
+                    <element name="price_qty" type="xsd:float"/>
+                    <element name="website_price" type="xsd:decimal"/>
                 </all>
             </complexType>
         </schema>
