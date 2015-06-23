@@ -17,7 +17,8 @@ class Gemgento_Push_Helper_Catalog_Product extends Mage_Core_Helper_Abstract
             'additional_attributes' => $this->additionalAttributes($product, $product->getStoreIds()),
             'simple_product_ids' => $this->simpleProductIds($product),
             'configurable_product_ids' => Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId()),
-            'bundle_options' => $this->bundleOptions($product)
+            'bundle_options' => $this->bundleOptions($product),
+            'tier_price' => $product->getData('tier_price')
         );
 
         return $data;
