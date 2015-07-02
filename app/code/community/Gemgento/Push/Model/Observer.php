@@ -421,29 +421,11 @@ class Gemgento_Push_Model_Observer {
         }
 
         $order = $observer->getEvent()->getOrder();
+        $data =  Mage::helper('gemgento_push/sales_order')->export($order);
+        $id = $data['gemgento_id'];
 
-        $data = $this->_getAttributes($order, 'order');
-        $data['order_id'] = $order->getId();
-        $data['gemgento_id'] = $order->getGemgentoId();
-        $data['store_id'] = $order->getStoreId();
-        $data['shipping_address'] = $this->_getAttributes($order->getShippingAddress(), 'order_address');
-        $data['billing_address'] = $this->_getAttributes($order->getBillingAddress(), 'order_address');
-        $data['items'] = array();
-
-        foreach ($order->getAllItems() as $item) {
-            if ($item->getGiftMessageId() > 0) {
-                $item->setGiftMessage(
-                    Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())->getMessage()
-                );
-            }
-
-            $data['items'][] = $this->_getAttributes($item, 'order_item');
-        }
-
-        $data['status_history'] = array();
-
-        foreach ($order->getAllStatusHistory() as $history) {
-            $data['status_history'][] = $this->_getAttributes($history, 'order_status_history');
+        if ($id == NULL || $id == '') {
+            $id = 0;
         }
 
         $id = $data['gemgento_id'];
@@ -453,6 +435,7 @@ class Gemgento_Push_Model_Observer {
         }
 
         self::push('PUT', 'orders', $id, $data);
+
     }
 
     /**
@@ -629,7 +612,7 @@ class Gemgento_Push_Model_Observer {
      * @param array $attributes
      * @return Mage_Sales_Model_Api_Resource
      */
-    protected function _getAttributes($object, $type, array $attributes = null) {
+    public function _getAttributes($object, $type, array $attributes = null) {
         $result = array();
 
         if (!is_object($object)) {
