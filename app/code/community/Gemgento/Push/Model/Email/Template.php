@@ -78,26 +78,26 @@ class Gemgento_Push_Model_Email_Template extends Mage_Core_Model_Email_Template
         }
 
         # include necessary objects and send
-        switch($code) {
+        switch(true) {
 
-            case 'sales_email_order_template':
+            case (strpos($code, 'sales_email_order') !== false):
                 $data['order'] = $vars['order']->toArray();
                 Mage::helper('gemgento_push/email_template')->sendSalesEmail('orders', $data);
                 break;
 
-            case 'sales_email_invoice_template':
+            case (strpos($code, 'sales_email_invoice') !== false):
                 $data['order'] = $vars['order']->toArray();
                 $data['invoice'] = $vars['invoice']->toArray();
                 Mage::helper('gemgento_push/email_template')->sendSalesEmail('invoices', $data);
                 break;
 
-            case 'sales_email_shipment_template':
+            case (strpos($code, 'sales_email_shipment') !== false):
                 $data['order'] = $vars['order']->toArray();
                 $data['shipment'] = $vars['shipment']->toArray();
                 Mage::helper('gemgento_push/email_template')->sendSalesEmail('shipments', $data);
                 break;
 
-            case 'sales_email_creditmemo_template':
+            case (strpos($code, 'sales_email_creditmemo') !== false):
                 $data['order'] = $vars['order']->toArray();
                 $data['credit_memo'] = $vars['creditmemo']->toArray();
                 Mage::helper('gemgento_push/email_template')->sendSalesEmail('credit_memos', $data);
