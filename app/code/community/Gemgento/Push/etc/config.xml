@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Gemgento_Push>
-            <version>0.2.1</version>
+            <version>1.0.0</version>
         </Gemgento_Push>
     </modules>
     <global>
@@ -10,12 +10,6 @@
             <gemgento_push>
                 <class>Gemgento_Push_Model</class>
             </gemgento_push>
-
-            <core>
-                <rewrite>
-                    <email_template>Gemgento_Push_Model_Email_Template</email_template>
-                </rewrite>
-            </core>
         </models>
         <helpers>
             <gemgento_push>

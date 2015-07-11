@@ -51,27 +51,7 @@
                         </gemgento_password>    
                     </fields>  
                 </settings>
-                <emails translate="label">
-                    <label>Transactional Emails</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>20</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <expanded>1</expanded>
-                    <fields>
-                        <enabled translate="label">
-                            <label>Send emails through Gemgento</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </enabled>
-                    </fields>
-                </emails>
-            </groups>  
+            </groups>
         </gemgento_push>  
     </sections>  
 </config>  
