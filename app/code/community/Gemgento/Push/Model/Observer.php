@@ -250,93 +250,13 @@ class Gemgento_Push_Model_Observer {
      * @param \Varien_Event_Observer $observer
      */
     public function attribute_save($observer) {
-        $model = $observer->getEvent()->getAttribute();
+        $attribute = $observer->getEvent()->getAttribute();
 
-        if ($model->getAttributeCode() === NULL) {
+        if ($attribute->getAttributeCode() === NULL) {
             return NULL;
         }
 
-        $frontendLabels = array();
-        $options = array();
-
-        foreach ($model->getStoreLabels() as $store_id => $label) {
-            $frontendLabels[] = array(
-                'store_id' => $store_id,
-                'label' => $label
-            );
-
-            $store_options = $model->setStoreId($store_id)->getSource()->getAllOptions();
-
-            if (sizeof($store_options) == 1 && $store_options[0]['label'] === '') {
-                $store_options = array();
-            }
-
-            $options[] = array(
-                'store_id' => $store_id,
-                'options' => $store_options
-            );
-        }
-
-        $data = array(
-            'attribute_id' => $model->getId(),
-            'attribute_code' => $model->getAttributeCode(),
-            'frontend_input' => $model->getFrontendInput(),
-            'default_value' => $model->getDefaultValue(),
-            'is_unique' => $model->getIsUnique(),
-            'is_required' => $model->getIsRequired(),
-            'apply_to' => $model->getApplyTo(),
-            'is_configurable' => $model->getIsConfigurable(),
-            'is_searchable' => $model->getIsSearchable(),
-            'is_visible_in_advanced_search' => $model->getIsVisibleInAdvancedSearch(),
-            'is_comparable' => $model->getIsComparable(),
-            'is_used_for_promo_rules' => $model->getIsUsedForPromoRules(),
-            'is_visible_on_front' => $model->getIsVisibleOnFront(),
-            'used_in_product_listing' => $model->getUsedInProductListing(),
-            'frontend_label' => $frontendLabels,
-            'options' => $options
-        );
-
-        // set additional fields to different types
-        switch ($model->getFrontendInput()) {
-            case 'text':
-                $data['additional_fields'] = array(
-                    'frontend_class' => $model->getFrontendClass(),
-                    'is_html_allowed_on_front' => $model->getIsHtmlAllowedOnFront(),
-                    'used_for_sort_by' => $model->getUsedForSortBy()
-                );
-                break;
-            case 'textarea':
-                $data['additional_fields'] = array(
-                    'is_wysiwyg_enabled' => $model->getIsWysiwygEnabled(),
-                    'is_html_allowed_on_front' => $model->getIsHtmlAllowedOnFront(),
-                );
-                break;
-            case 'date':
-            case 'boolean':
-                $data['additional_fields'] = array(
-                    'used_for_sort_by' => $model->getUsedForSortBy()
-                );
-                break;
-            case 'multiselect':
-                $data['additional_fields'] = array(
-                    'is_filterable' => $model->getIsFilterable(),
-                    'is_filterable_in_search' => $model->getIsFilterableInSearch(),
-                    'position' => $model->getPosition()
-                );
-                break;
-            case 'select':
-            case 'price':
-                $data['additional_fields'] = array(
-                    'is_filterable' => $model->getIsFilterable(),
-                    'is_filterable_in_search' => $model->getIsFilterableInSearch(),
-                    'position' => $model->getPosition(),
-                    'used_for_sort_by' => $model->getUsedForSortBy()
-                );
-                break;
-            default:
-                $data['additional_fields'] = array();
-                break;
-        }
+        $data = Mage::helper('gemgento_push/catalog_attribute')->export($attribute);
 
         self::push('PUT', 'product_attributes', $data['attribute_id'], $data);
     }
