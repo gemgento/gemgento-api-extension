@@ -18,7 +18,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function address_save($observer) {
 
-        if (!$this->_isAdmin()) {
+        if ($this->_isRestricted('address_save') && !$this->_isAdmin()) {
             return; # if event was not triggered by admin, stop here
         }
 
@@ -43,7 +43,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function product_save($observer) {
 
-        if (!$this->_isAdmin()) {
+        if ($this->_isRestricted('product_save') && !$this->_isAdmin()) {
             return; # if event was not triggered by admin, stop here
         }
 
@@ -88,35 +88,7 @@ class Gemgento_Push_Model_Observer {
     public function stock_save($observer) {
         $product_id = $observer->getEvent()->getItem()->getProductId();
         $product = Mage::getModel('catalog/product')->load($product_id);
-        $data = array(
-            'product_id' => $product_id,
-            'inventories' => array()
-        );
-
-        $stock = array(); // stock data for all websites
-        $stockCollection = Mage::getResourceModel('cataloginventory/stock_item_collection')->addProductsFilter(array($product))->load();
-        $maxWebsite_id = 0;
-
-        foreach ($stockCollection as $stockItem) {
-            $tmpStock = $stockItem->getData();
-            $website_id = (array_key_exists('website_id', $tmpStock)) ? $tmpStock['website_id'] : 0;
-
-            if ($maxWebsite_id < $website_id) {
-                $maxWebsite_id = $website_id;
-            }
-            if (in_array($product->getTypeId(), $this->_complexProductTypes)) {
-                $this->_filterComplexProductValues($tmpStock);
-            }
-            $stock[$website_id] = $tmpStock;
-        }
-
-        foreach ($stock as $key => $value) {
-            if (isset($values['website_id']) && ($value['website_id'] == $maxWebsite_id || empty($value['website_id']))) {
-                unset($stock[$key]);
-            }
-        }
-
-        $data['inventories'] = $stock;
+        $data = $product->getStockItem()->toArray();
 
         self::push('PUT', 'inventory', $data['product_id'], $data);
     }
@@ -128,7 +100,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function category_save($observer) {
 
-        if (!$this->_isAdmin()) {
+        if ($this->_isRestricted('category_save') && !$this->_isAdmin()) {
             return; # if event was not triggered by admin, stop here
         }
 
@@ -185,7 +157,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function category_move($observer) {
 
-        if (!$this->_isAdmin()) {
+        if ($this->_isRestricted('address_move') && !$this->_isAdmin()) {
             return; # if event was not triggered by admin, stop here
         }
 
@@ -279,7 +251,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function customer_save($observer) {
 
-        if (!$this->_isAdmin()) {
+        if ($this->_isRestricted('customer_save') && !$this->_isAdmin()) {
             return; # if event was not triggered by admin, stop here
         }
 
@@ -336,7 +308,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function order_save($observer) {
 
-        if (!$this->_isAdmin()) {
+        if ($this->_isRestricted('order_save') && !$this->_isAdmin()) {
             return; # if event was not triggered by admin, stop here
         }
 
@@ -563,8 +535,8 @@ class Gemgento_Push_Model_Observer {
     /**
      * Check is attribute allowed to usage
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param string $entityType
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attributeCode
+     * @param string $type
      * @param array $attributes
      * @return boolean
      */
@@ -591,6 +563,17 @@ class Gemgento_Push_Model_Observer {
      */
     protected function _isAdmin() {
         return is_object(Mage::getSingleton('admin/session')->getUser());
+    }
+
+    /**
+     * Determine if an events observer is restricted to the admin session.
+     *
+     * @param string $event
+     * @return bool
+     */
+    protected function _isRestricted($event)
+    {
+        return (bool) Mage::getStoreConfig("gemgento_push/admin_session_restricted_events/$event");
     }
 
 }
