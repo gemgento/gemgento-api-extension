@@ -6,15 +6,6 @@
             <codePool>community</codePool>
         </Bubble_Api>
 
-        <Gemgento_ApiLogger>
-            <active>true</active>
-            <codePool>community</codePool>
-            <depends>
-                <Mage_Api />
-                <Mage_Api2 />
-            </depends>
-        </Gemgento_ApiLogger>
-
         <Gemgento_ProductSearch>
             <active>true</active>
             <codePool>community</codePool>
