@@ -224,7 +224,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
      * Instantiate quote and checkout
      * @throws Mage_Core_Exception
      */
-    private function _initCheckout()
+    protected function _initCheckout()
     {
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
@@ -252,7 +252,7 @@ class Gemgento_Paypal_ExpressController extends Mage_Paypal_ExpressController
      *
      * @return Mage_Checkout_Model_Session
      */
-    private function _getCheckoutSession()
+    protected function _getCheckoutSession()
     {
         return Mage::getSingleton('checkout/session');
     }
