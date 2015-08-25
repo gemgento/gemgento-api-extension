@@ -16,6 +16,7 @@ class Gemgento_Push_Helper_Catalog_Product extends Mage_Core_Helper_Abstract
             'stores' => $product->getStoreIds(),
             'additional_attributes' => $this->additionalAttributes($product, $product->getStoreIds()),
             'simple_product_ids' => $this->simpleProductIds($product),
+            'configurable_attribute_ids' => $this->configurableAttributeIds($product),
             'configurable_product_ids' => Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId()),
             'bundle_options' => $this->bundleOptions($product),
             'tier_price' => $product->getData('tier_price')
@@ -37,6 +38,18 @@ class Gemgento_Push_Helper_Catalog_Product extends Mage_Core_Helper_Abstract
         }
 
         return $ids;
+    }
+
+    public function configurableAttributeIds($product)
+    {
+        $configurable_attributes = $product->getTypeInstance(true)->getConfigurableAttributes($product);
+        $configurable_Attribute_ids = array();
+
+        foreach($configurable_attributes as $conf_attr) {
+            $configurable_Attribute_ids[] = $conf_attr->getId();
+        }
+
+        return $configurable_Attribute_ids;
     }
 
     public function additionalAttributes($product, $storeIds)

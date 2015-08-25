@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Gemgento_Push>
-            <version>2.0.0</version>
+            <version>2.1.0</version>
         </Gemgento_Push>
     </modules>
     <global>
