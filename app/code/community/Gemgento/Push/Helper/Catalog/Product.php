@@ -42,13 +42,13 @@ class Gemgento_Push_Helper_Catalog_Product extends Mage_Core_Helper_Abstract
 
     public function configurableAttributeIds($product)
     {
-        $configurable_attributes = $product->getTypeInstance(true)->getConfigurableAttributes($product);
         $configurable_Attribute_ids = array();
-
-        foreach($configurable_attributes as $conf_attr) {
-            $configurable_Attribute_ids[] = $conf_attr->getAttributeId();
+        if ($product->getTypeId() == 'configurable') {
+            $configurable_attributes = $product->getTypeInstance(true)->getConfigurableAttributes($product);
+            foreach($configurable_attributes as $conf_attr) {
+                $configurable_Attribute_ids[] = $conf_attr->getAttributeId();
+            }
         }
-
         return $configurable_Attribute_ids;
     }
 
