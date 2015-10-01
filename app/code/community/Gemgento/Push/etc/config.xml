@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Gemgento_Push>
-            <version>2.1.2</version>
+            <version>2.2.0</version>
         </Gemgento_Push>
     </modules>
     <global>
@@ -19,7 +19,7 @@
         <events>
             
             <!-- ADDRESSES -->
-            <customer_address_save_after>
+            <customer_address_save_commit_after>
                <observers>
                     <push>
                         <type>singleton</type>
@@ -27,7 +27,7 @@
                         <method>address_save</method>
                     </push>
                 </observers> 
-            </customer_address_save_after>
+            </customer_address_save_commit_after>
             
             <customer_address_delete_before>
                <observers>
@@ -40,7 +40,7 @@
             </customer_address_delete_before>
             
             <!-- PRODUCTS -->
-            <catalog_product_save_after>
+            <catalog_product_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -48,7 +48,7 @@
                         <method>product_save</method>
                     </push>
                 </observers>
-            </catalog_product_save_after>
+            </catalog_product_save_commit_after>
             
             <catalog_product_delete_before>
                 <observers>
@@ -61,7 +61,7 @@
             </catalog_product_delete_before>
             
             <!-- STOCK -->
-            <cataloginventory_stock_item_save_after>
+            <cataloginventory_stock_item_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -69,10 +69,10 @@
                         <method>stock_save</method>
                     </push>
                 </observers>
-            </cataloginventory_stock_item_save_after>
+            </cataloginventory_stock_item_save_commit_after>
             
             <!-- CATEGORY -->
-            <catalog_category_save_after>
+            <catalog_category_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -80,7 +80,7 @@
                         <method>category_save</method>
                     </push>
                 </observers>
-            </catalog_category_save_after>
+            </catalog_category_save_commit_after>
             
             <catalog_category_delete_before>
                 <observers>
@@ -103,7 +103,7 @@
             </catalog_category_tree_move_after>
             
             <!-- PRICE RULES -->
-            <catalogrule_rule_save_after>
+            <catalogrule_rule_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -111,7 +111,7 @@
                         <method>rule_save</method>
                     </push>
                 </observers>
-            </catalogrule_rule_save_after>
+            </catalogrule_rule_save_commit_after>
             
             <catalogrule_rule_delete_before>
                 <observers>
@@ -124,7 +124,7 @@
             </catalogrule_rule_delete_before>
             
             <!-- ATTRIBUTE SET -->
-            <eav_entity_attribute_set_save_after>
+            <eav_entity_attribute_set_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -132,7 +132,7 @@
                         <method>attribute_set_save</method>
                     </push>
                 </observers>
-            </eav_entity_attribute_set_save_after>
+            </eav_entity_attribute_set_save_commit_after>
             
             <eav_entity_attribute_set_delete_before>
                 <observers>
@@ -145,7 +145,7 @@
             </eav_entity_attribute_set_delete_before>
             
             <!-- ATTRIBUTE -->
-            <catalog_entity_attribute_save_after>
+            <catalog_entity_attribute_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -153,9 +153,9 @@
                         <method>attribute_save</method>
                     </push>
                 </observers>
-            </catalog_entity_attribute_save_after>
+            </catalog_entity_attribute_save_commit_after>
             
-            <eav_entity_attribute_save_after>
+            <eav_entity_attribute_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -163,7 +163,7 @@
                         <method>attribute_save</method>
                     </push>
                 </observers>
-            </eav_entity_attribute_save_after>
+            </eav_entity_attribute_save_commit_after>
             
             <catalog_entity_attribute_delete_before>
                 <observers>
@@ -186,7 +186,7 @@
             </eav_entity_attribute_delete_before>
             
             <!-- CUSTOMER -->
-            <customer_save_after>
+            <customer_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -194,7 +194,7 @@
                         <method>customer_save</method>
                     </push>
                 </observers>
-            </customer_save_after>
+            </customer_save_commit_after>
             
             <customer_delete_before>
                 <observers>
@@ -206,7 +206,7 @@
                 </observers>
             </customer_delete_before>
 
-            <customer_group_save_after>
+            <customer_group_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -214,7 +214,7 @@
                         <method>customer_group_save</method>
                     </push>
                 </observers>
-            </customer_group_save_after>
+            </customer_group_save_commit_after>
 
             <customer_group_delete_before>
                 <observers>
@@ -227,7 +227,7 @@
             </customer_group_delete_before>
             
             <!-- ORDER -->
-            <sales_order_save_after>
+            <sales_order_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -235,10 +235,10 @@
                         <method>order_save</method>
                     </push>
                 </observers>
-            </sales_order_save_after>
+            </sales_order_save_commit_after>
             
             <!-- STORE -->
-            <store_save_after>
+            <store_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -246,10 +246,10 @@
                         <method>store_save</method>
                     </push>
                 </observers>
-            </store_save_after>
+            </store_save_commit_after>
 
             <!-- RECURRING PROFILE -->
-            <sales_recurring_profile_save_after>
+            <sales_recurring_profile_save_commit_after>
                 <observers>
                     <push>
                         <type>singleton</type>
@@ -257,7 +257,7 @@
                         <method>recurring_profile_save</method>
                     </push>
                 </observers>
-            </sales_recurring_profile_save_after>
+            </sales_recurring_profile_save_commit_after>
         </events>
     </global>
     
