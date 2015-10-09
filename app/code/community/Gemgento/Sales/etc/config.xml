@@ -2,14 +2,13 @@
 <config>
     <modules>
         <Gemgento_Sales>
-            <version>0.0.1</version>
+            <version>1.0.0</version>
         </Gemgento_Sales>
     </modules>
     <global>
         <models>
             <sales>
                 <rewrite>
-                    <service_quote>Gemgento_Sales_Model_Service_Quote</service_quote>
                     <recurring_profile>Gemgento_Sales_Model_Recurring_Profile</recurring_profile>
                     <recurring_profile_api>Gemgento_Sales_Model_Recurring_Profile_Api</recurring_profile_api>
                     <recurring_profile_api_v2>Gemgento_Sales_Model_Recurring_Profile_Api_V2</recurring_profile_api_v2>
