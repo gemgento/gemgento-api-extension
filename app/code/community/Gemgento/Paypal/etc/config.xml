@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Gemgento_Paypal>
-            <version>0.0.6</version>
+            <version>1.0.0</version>
         </Gemgento_Paypal>
     </modules>
 
