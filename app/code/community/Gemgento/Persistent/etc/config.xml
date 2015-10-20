@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Gemgento_Persistent>
+            <version>0.0.1</version>
+        </Gemgento_Persistent>
+    </modules>
+    <global>
+        <models>
+            <persistent>
+                <rewrite>
+                    <observer>Gemgento_Persistent_Model_Observer</observer>
+                </rewrite>
+            </persistent>
+        </models>
+    </global>
+</config>

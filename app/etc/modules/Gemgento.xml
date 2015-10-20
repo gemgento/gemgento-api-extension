@@ -69,6 +69,14 @@
             </depends>
         </Gemgento_Paypal>
 
+        <Gemgento_Persistent>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Persistent/>
+            </depends>
+        </Gemgento_Persistent>
+
         <Gemgento_Push>
             <active>true</active>
             <codePool>community</codePool>
