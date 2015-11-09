@@ -115,7 +115,7 @@ class Gemgento_Push_Helper_Catalog_Product extends Mage_Core_Helper_Abstract
     {
         $optionSelections = array();
 
-        $selections = $product->getTypeInstance(true)->getSelectionsCollection($optionId, $product);
+        $selections = $product->getTypeInstance(true)->getSelectionsCollection([$optionId], $product);
 
         foreach( $selections as $selection )
         {
