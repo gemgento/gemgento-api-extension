@@ -157,7 +157,7 @@ class Gemgento_Push_Model_Observer {
      */
     public function category_move($observer) {
 
-        if ($this->_isRestricted('address_move') && !$this->_isAdmin()) {
+        if ($this->_isRestricted('category_move') && !$this->_isAdmin()) {
             return; # if event was not triggered by admin, stop here
         }
 
@@ -222,6 +222,11 @@ class Gemgento_Push_Model_Observer {
      * @param \Varien_Event_Observer $observer
      */
     public function attribute_save($observer) {
+
+        if ($this->_isRestricted('attribute_save') && !$this->_isAdmin()) {
+            return; # if event was not triggered by admin, stop here
+        }
+
         $attribute = $observer->getEvent()->getAttribute();
 
         if ($attribute->getAttributeCode() === NULL) {
