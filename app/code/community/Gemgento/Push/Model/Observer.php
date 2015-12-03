@@ -49,13 +49,8 @@ class Gemgento_Push_Model_Observer {
 
         $product = $observer->getProduct();
         $data =  Mage::helper('gemgento_push/catalog_product')->export($product);
-        $id = $data['gemgento_id'];
 
-        if ($id == NULL || $id == '') {
-            $id = 0;
-        }
-
-        self::push('PUT', 'products', $id, $data);
+        self::push('PUT', 'products', $product->getId(), $data);
     }
 
     /**
@@ -67,17 +62,10 @@ class Gemgento_Push_Model_Observer {
         $product = $observer->getProduct();
 
         $data = array(
-            'product_id' => $product->getId(),
-            'gemgento_id' => $product->getGemgentoId()
+            'product_id' => $product->getId()
         );
 
-        $id = $data['gemgento_id'];
-
-        if ($id == NULL || $id == '') {
-            $id = 0;
-        }
-
-        self::push('DELETE', 'products', $id, $data);
+        self::push('DELETE', 'products', $product->getId(), $data);
     }
 
     /**

@@ -8,7 +8,6 @@ class Gemgento_Push_Helper_Catalog_Product extends Mage_Core_Helper_Abstract
         // Basic product data
         $data = array(
             'product_id' => $product->getId(),
-            'gemgento_id' => $product->getGemgentoId(),
             'sku' => $product->getSku(),
             'set' => $product->getAttributeSetId(),
             'type' => $product->getTypeId(),
