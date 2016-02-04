@@ -45,30 +45,6 @@ class Gemgento_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Cart_Api {
     }
 
     /**
-     * @param  $quoteId
-     * @param  $store
-     * @return void
-     */
-    public function totals($quoteId, $store = null)
-    {
-        $quote = $this->_getQuote($quoteId, $store);
-
-        # Always recalculate the totals.  Prevents displaying wrong prices when sales start/end
-        $quote->setTotalsCollectedFlag(false)->collectTotals();
-
-        $totals = $quote->getTotals();
-
-        $totalsResult = array();
-        foreach ($totals as $total) {
-            $totalsResult[] = array(
-                "title" => $total->getTitle(),
-                "amount" => $total->getValue()
-            );
-        }
-        return $totalsResult;
-    }
-
-    /**
      * Create an order from the shopping cart (quote)
      *
      * @param  $quoteId
